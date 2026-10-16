@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Atrévete a ser ¡Feliz! · Ya pagué mi entrada</title>
+<meta name="description" content="Si ya pagaste tu entrada a Atrévete a ser ¡Feliz! por otro medio, deja tus datos para recibir tus boletas con su código QR.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap">
+<style>
+/* Layout: el tiquete arriba como cartel de teatro sobre el telón; debajo, la función (fecha, lugar, sinopsis) a la
+   izquierda y la compra en una tarjeta clara a la derecha; en celular todo en una columna con la compra después de la fecha.
+   One dark theatre look on purpose (red curtain, marquee gold, the ticket's blue), so every color is set explicitly. */
+:root{
+  --curtain:#220506; --red:#8f1214; --red-hi:#c8221f; --gold:#f6b33a; --bulb:#ffe2a0;
+  --blue:#2f6ccf; --blue-dk:#2558ad; --ink:#ffffff; --muted:#ead3d0;
+  --card:#fffaf3; --card-ink:#1c0506; --card-soft:#5c4542; --line:#e2d3c8;
+  --display:"Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  --body:Montserrat, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background-color:var(--curtain);
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(0,0,0,.65), transparent 70%),
+    repeating-linear-gradient(90deg, #3a0709 0 18px, #5a0b0e 30px, #2c0507 46px, #4a090c 60px, #3a0709 72px);
+  color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.55;
+}
+.wrap{max-width:1180px; margin:0 auto; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); padding-block:20px 48px}
+
+/* Cartel */
+.marquee{position:relative; margin:0 auto; max-width:1100px; padding:14px; border-radius:14px;
+  background:linear-gradient(#5b0a0d,#3b0608);
+  box-shadow:0 0 0 3px #7a1114, 0 30px 60px -25px rgba(0,0,0,.9), 0 0 60px rgba(246,179,58,.18)}
+.marquee::before{content:""; position:absolute; inset:5px; border-radius:10px; pointer-events:none;
+  background:
+    radial-gradient(circle, var(--bulb) 0 3px, rgba(246,179,58,.55) 4px, transparent 6px) 0 0/26px 26px;
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; padding:5px;
+  animation:bulbs 2.4s steps(2) infinite}
+@keyframes bulbs{50%{opacity:.65}}
+.marquee img{display:block; width:100%; height:auto; border-radius:6px; max-width:100%}
+
+/* Función + compra */
+.main{margin-top:clamp(28px,5vw,48px); display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); grid-template-areas:"show buy" "more buy"; column-gap:clamp(24px,4vw,48px); row-gap:0; align-items:start}
+.show{grid-area:show; min-width:0}
+.more{grid-area:more; min-width:0}
+.buy{grid-area:buy}
+.eyebrow{margin:0; font-weight:700; font-size:13px; letter-spacing:.24em; text-transform:uppercase; color:var(--gold)}
+h1{margin:4px 0 0; font-family:var(--display); font-weight:400; font-size:clamp(46px,7vw,76px); line-height:.95; letter-spacing:.01em; text-wrap:balance}
+h1 em{font-style:normal; color:var(--gold); text-shadow:0 0 18px rgba(246,179,58,.45)}
+.date{display:flex; align-items:center; gap:18px; margin:22px 0 0}
+.date .day{font-family:var(--display); font-size:clamp(78px,11vw,112px); line-height:.85; color:var(--ink)}
+.date .rest{display:grid; gap:2px; border-left:3px solid var(--ink); padding-left:16px}
+.date .rest b{font-family:var(--display); font-weight:400; font-size:clamp(28px,4vw,36px); line-height:1; letter-spacing:.03em}
+.date .rest span{font-size:14px; color:var(--muted)}
+.facts{list-style:none; margin:22px 0 0; padding:0; display:grid; gap:12px}
+.facts li{display:grid; grid-template-columns:110px minmax(0,1fr); gap:12px; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,.14)}
+.facts li:last-child{border-bottom:0}
+.facts dt,.facts .k{font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); padding-top:3px}
+.facts .v{min-width:0}
+.facts .v small{display:block; color:var(--muted); font-size:14px}
+.synopsis{margin:20px 0 0; color:var(--muted); max-width:60ch}
+.tag{margin:18px 0 0; font-weight:800; text-transform:uppercase; letter-spacing:.02em; font-size:15px; line-height:1.4; display:flex; gap:10px}
+.tag::before{content:"✱"; color:var(--gold); font-size:22px; line-height:1}
+
+.buy{color-scheme:light; position:sticky; top:calc(env(safe-area-inset-top, 0px) + 16px); background:var(--card); color:var(--card-ink); border-radius:12px; padding:clamp(20px,3.5vw,32px); box-shadow:0 30px 60px -30px rgba(0,0,0,.9); min-width:0; overflow:hidden}
+.buy::before{content:""; position:absolute; left:0; right:0; top:0; height:8px; background:repeating-linear-gradient(90deg, var(--gold) 0 14px, transparent 14px 22px)}
+.buy h2{margin:6px 0 4px; font-family:var(--display); font-weight:400; font-size:clamp(36px,4.6vw,44px); line-height:1; letter-spacing:.02em}
+.intro{margin:0 0 18px; color:var(--card-soft); font-size:15px}
+.price{display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 0 20px; padding:14px 18px; border-radius:8px; background:var(--blue); color:#fff}
+.price span{font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; line-height:1.3}
+.price span small{display:block; font-weight:500; letter-spacing:.04em; opacity:.9}
+.price b{font-weight:800; font-size:32px; letter-spacing:-.02em; white-space:nowrap; font-variant-numeric:tabular-nums}
+.price b small{font-size:14px; font-weight:700}
+.qty{display:flex; justify-content:space-between; align-items:center; gap:14px; padding:0 0 14px}
+.qty-l{font-size:15px; font-weight:800; line-height:1.3}
+.qty-l small{display:block; font-size:12px; font-weight:500; color:var(--card-soft)}
+.stepper{display:flex; align-items:center; border:2px solid var(--card-ink); border-radius:999px; overflow:hidden; flex:none}
+.stepper button{width:48px; height:48px; border:0; background:transparent; color:var(--card-ink); font-size:26px; font-weight:700; cursor:pointer; line-height:1}
+.stepper button:hover{background:#f1e6da}
+.stepper button:disabled{opacity:.3; cursor:not-allowed}
+.stepper button:focus-visible{outline:3px solid var(--gold); outline-offset:-3px}
+.stepper input{width:64px; height:48px; border:0; padding:0; text-align:center; background:transparent; color:var(--card-ink); font-family:var(--display); font-size:32px; line-height:1; font-variant-numeric:tabular-nums; -moz-appearance:textfield; appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+.stepper input:focus{outline:none; background:#f1e6da}
+.filas{list-style:none; margin:4px 0 0; padding:0; display:grid; gap:8px; max-height:420px; overflow:auto}
+.filas li{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:#fff; font-size:14px; font-variant-numeric:tabular-nums}
+.filas li b{font-weight:800; letter-spacing:.04em}
+.filas li small{display:block; color:var(--card-soft)}
+.filas button{flex:none; border:0; border-radius:6px; padding:9px 12px; background:var(--gold); color:var(--card-ink); font:800 13px var(--body); text-transform:uppercase; letter-spacing:.04em; cursor:pointer}
+.filas button[disabled]{opacity:.6; cursor:progress}
+.total{display:flex; justify-content:space-between; align-items:baseline; margin:0 0 18px; padding:12px 0 0; border-top:2px dashed var(--line); font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.06em}
+.total b{font-size:26px; letter-spacing:-.01em; font-variant-numeric:tabular-nums; text-transform:none}
+.lista{display:grid; gap:18px}
+.lista figure{margin:0}
+.lista .btn{margin-top:10px; min-height:50px; font-size:22px}
+.grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+.f{display:flex; flex-direction:column; gap:6px; min-width:0}
+.f.full{grid-column:1 / -1}
+label{font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase}
+input[type=text],input[type=email],input[type=tel]{width:100%; height:50px; padding:0 14px; font:inherit; font-size:16px; color:var(--card-ink); background:#fff; border:1.5px solid var(--line); border-radius:6px; transition:border-color .15s, box-shadow .15s}
+input::placeholder{color:#a8958f}
+input:focus{outline:none; border-color:var(--card-ink); box-shadow:0 0 0 3px rgba(246,179,58,.5)}
+input[aria-invalid=true]{border-color:var(--red-hi); background:#fff5f4}
+.err{font-size:13px; color:var(--red-hi); font-weight:600}
+.err:empty{display:none}
+.consent{display:flex; gap:12px; align-items:flex-start; margin:18px 0 0}
+.consent input{width:20px; height:20px; margin:1px 0 0; accent-color:var(--red-hi); flex:none}
+.consent label{font-size:14px; font-weight:400; letter-spacing:0; text-transform:none; color:var(--card-soft); line-height:1.4}
+.btn{display:grid; place-items:center; margin-top:20px; width:100%; min-height:58px; border:0; border-radius:8px; cursor:pointer; text-decoration:none;
+  background:var(--red-hi); color:#fff; font-family:var(--display); font-size:26px; letter-spacing:.06em; transition:background .15s, transform .1s}
+.btn:hover{background:var(--red)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+.btn[disabled]{opacity:.7; cursor:progress}
+.btn.gold{background:var(--gold); color:var(--card-ink)}
+.btn.gold:hover{background:#e9a425}
+.btn.ghost{background:transparent; color:var(--card-ink); border:2px solid var(--card-ink); min-height:50px; font-size:22px}
+.btn.ghost:hover{background:var(--card-ink); color:#fff}
+.secure{margin:10px 0 0; font-size:13px; color:var(--card-soft); text-align:center}
+.form-msg{margin:14px 0 0; font-size:14px; font-weight:700; color:var(--red-hi); text-align:center}
+.form-msg:empty{display:none}
+.trap{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
+.ok{margin:0 0 16px; font-size:16px; line-height:1.45}
+.ok strong{font-weight:800}
+.ticket img{display:block; width:100%; height:auto; border-radius:6px; box-shadow:0 10px 30px -12px rgba(0,0,0,.6); background:#c8161d}
+.ticket .hint{margin:10px 0 0; font-size:13px; color:var(--card-soft); text-align:center}
+
+footer{margin-top:clamp(36px,6vw,64px); padding-top:16px; border-top:1px solid rgba(255,255,255,.18); display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 20px; font-size:13px; color:var(--muted)}
+
+@media (max-width:900px){
+  .main{grid-template-columns:minmax(0,1fr); grid-template-areas:"show" "buy" "more"; row-gap:28px}
+  .buy{position:static}
+}
+@media (max-width:440px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .facts li{grid-template-columns:minmax(0,1fr); gap:2px}
+  .price b{font-size:28px}
+}
+@media (prefers-reduced-motion:reduce){ .marquee::before{animation:none} }
+/* Página "Ya pagué": mismo telón y tarjeta que la compra, con medio de pago y comprobante. */
+select{width:100%; height:50px; padding:0 40px 0 14px; font:inherit; font-size:16px; color:var(--card-ink); background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%231c0506' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center; border:1.5px solid var(--line); border-radius:6px; -webkit-appearance:none; appearance:none}
+select:focus{outline:none; border-color:var(--card-ink); box-shadow:0 0 0 3px rgba(246,179,58,.5)}
+select[aria-invalid=true]{border-color:var(--red-hi); background-color:#fff5f4}
+.help{font-size:13px; color:var(--card-soft)}
+.paso{margin:22px 0 10px; padding-top:16px; border-top:2px dashed var(--line); font-size:13px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--card-soft)}
+.paso:first-of-type{margin-top:0; padding-top:0; border-top:0}
+.resumen{margin:0 0 18px; padding:14px 16px; border-radius:8px; background:#f6efe6; display:grid; gap:4px; font-size:15px}
+.resumen b{font-weight:800}
+.codigo{display:inline-block; margin-top:2px; font-family:var(--display); font-size:30px; letter-spacing:.08em; color:var(--card-ink)}
+.pasos{margin:0 0 18px; padding-left:20px; color:var(--card-soft); font-size:15px; display:grid; gap:6px}
+.marquee.small{max-width:820px}
+.main{grid-template-rows:auto 1fr}
+.total{gap:12px}
+.total b{white-space:nowrap}
+@media (max-width:440px){ .total b{font-size:22px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="marquee small"><img src="../tiquete.jpg" alt="Tiquete de Atrévete a ser ¡Feliz!, standup comedy de Moisés Angulo. Jueves 10 de diciembre, 7:00 p. m., Comfamiliar Sede Caribe." width="2000" height="871"></div>
+
+  <div class="main">
+    <section class="show">
+      <p class="eyebrow">Standup comedy · Moisés Angulo</p>
+      <h1>Atrévete a ser <em>¡Feliz!</em></h1>
+      <div class="date">
+        <div class="day">10</div>
+        <div class="rest"><b>Jueves · Diciembre 2026</b><span>Función de 7:00 a 9:00 p. m.</span></div>
+      </div>
+      <ul class="facts">
+        <li><span class="k">Horario</span><span class="v">Puertas: 6:00 p. m.<small>Función: 7:00 a 9:00 p. m.</small></span></li>
+        <li><span class="k">Lugar</span><span class="v">Comfamiliar Sede Caribe<small>Cra. 30 #1B-99, al lado de la Clínica Porto Azul · Puerto Colombia, Atlántico</small></span></li>
+      </ul>
+    </section>
+
+    <section class="more">
+      <p class="synopsis">¿Pagaste tu entrada en efectivo, por transferencia o por Nequi? Deja aquí tus datos y el comprobante de tu pago. Cuando el organizador lo verifique, te llegan al correo tus boletas, cada una con su propio QR para entrar.</p>
+      <p class="tag"><span>¿Todavía no has pagado? <a href="../" style="color:var(--gold)">Compra tu entrada aquí</a></span></p>
+    </section>
+
+    <aside class="buy" id="registro" aria-live="polite">
+      <div id="form-view">
+        <h2>Ya pagué mi entrada</h2>
+        <p class="intro">Completa tus datos para recibir tus boletas con QR. No se hace ningún cobro en esta página.</p>
+        <form id="reg-form" novalidate>
+          <p class="paso">1 · Tu pago</p>
+          <div class="qty">
+            <span class="qty-l" id="qty-l">¿Cuántas boletas pagaste?<small>Recibes un QR por cada boleta</small></span>
+            <div class="stepper" role="group" aria-labelledby="qty-l">
+              <button type="button" id="menos" aria-label="Una boleta menos">−</button>
+              <input id="cantidad" type="number" inputmode="numeric" min="1" max="100" value="1" aria-label="Número de boletas">
+              <button type="button" id="mas" aria-label="Una boleta más">+</button>
+            </div>
+          </div>
+          <p class="total">Valor de tus boletas <b id="total">$90.000</b></p>
+          <div class="grid">
+            <div class="f">
+              <label for="medio">¿Cómo pagaste?</label>
+              <select id="medio" name="medio">
+                <option value="">Elige una opción</option>
+                <option>Efectivo</option>
+                <option>Transferencia bancaria</option>
+                <option>Nequi</option>
+                <option>Daviplata</option>
+                <option>Otro</option>
+              </select>
+              <span class="err" id="medio-err"></span>
+            </div>
+            <div class="f">
+              <label for="comprobante">N.º de comprobante</label>
+              <input type="text" id="comprobante" name="comprobante" maxlength="60" autocomplete="off" placeholder="Ej. M12345678">
+              <span class="help" id="comprobante-help">El número que aparece en tu recibo o transferencia.</span>
+              <span class="err" id="comprobante-err"></span>
+            </div>
+          </div>
+
+          <p class="paso">2 · Tus datos</p>
+          <div class="grid">
+            <div class="f full">
+              <label for="nombre">Nombre completo</label>
+              <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej. Ana María Torres">
+              <span class="err" id="nombre-err"></span>
+            </div>
+            <div class="f">
+              <label for="cedula">Cédula</label>
+              <input type="text" id="cedula" name="cedula" inputmode="numeric" placeholder="Solo números">
+              <span class="err" id="cedula-err"></span>
+            </div>
+            <div class="f">
+              <label for="celular">Celular (WhatsApp)</label>
+              <input type="tel" id="celular" name="celular" autocomplete="tel" inputmode="tel" placeholder="300 123 4567">
+              <span class="err" id="celular-err"></span>
+            </div>
+            <div class="f full">
+              <label for="correo">Correo electrónico</label>
+              <input type="email" id="correo" name="correo" autocomplete="email" placeholder="tucorreo@ejemplo.com">
+              <span class="err" id="correo-err"></span>
+            </div>
+          </div>
+          <div class="consent">
+            <input type="checkbox" id="acepto" name="acepto">
+            <label for="acepto">Autorizo el uso de mis datos para verificar mi pago, recibir mis boletas y la información de este evento, según la Ley 1581 de 2012.</label>
+          </div>
+          <span class="err" id="acepto-err"></span>
+          <div class="trap" aria-hidden="true"><label for="sitio">No llenar</label><input type="text" id="sitio" name="sitio" tabindex="-1" autocomplete="off"></div>
+          <button class="btn" type="submit" id="enviar">Enviar mis datos</button>
+          <p class="form-msg" id="form-msg" role="alert"></p>
+        </form>
+      </div>
+
+      <div id="ok-view" hidden>
+        <h2 id="ok-title" tabindex="-1">¡Recibimos tus datos!</h2>
+        <div class="resumen">
+          <span>Tu número de registro</span>
+          <span class="codigo" id="ok-codigo"></span>
+          <span id="ok-detalle"></span>
+        </div>
+        <ol class="pasos">
+          <li>El organizador verifica tu pago con el comprobante.</li>
+          <li id="ok-correo">Te llegan tus boletas al correo, cada una con su QR.</li>
+          <li>Presentas el QR en la entrada, desde el celular o impreso.</li>
+        </ol>
+        <p class="help">Si en un par de días no te llega el correo, revisa la carpeta de spam o escríbele al organizador con tu número de registro.</p>
+        <button class="btn ghost" type="button" id="again">Registrar otro pago</button>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <span>Atrévete a ser ¡Feliz! · Standup comedy · Moisés Angulo</span>
+    <span>Jueves 10 de diciembre de 2026 · Comfamiliar Sede Caribe, Puerto Colombia</span>
+  </footer>
+</div>
+
+<script>
+/* Dirección del registro (la "App web" de Google Apps Script en la cuenta de KVRA).
+   (registro/pruebas/servidor.js la cambia por /exec local para probar en este computador.) */
+var URL_REGISTRO = 'https://script.google.com/macros/s/AKfycbyj1d__4TeGcOLL9UBG_t7fM_ZKtQBwfMFGperw6Neslh9oWKcxItgi8SJOPjiIbMKR/exec';
+var EVENTO = 'feliz';
+
+(function(){
+  var form = document.getElementById('reg-form');
+  var boton = document.getElementById('enviar');
+  var aviso = document.getElementById('form-msg');
+  var PRECIO = 90000, MAX = 100, cantidad = 1;
+  var pesos = function(n){ return '$' + n.toLocaleString('es-CO'); };
+  function pintarCantidad(){
+    var campo = document.getElementById('cantidad');
+    if (document.activeElement !== campo || campo.value !== '') campo.value = cantidad;
+    document.getElementById('total').textContent = pesos(PRECIO * cantidad) + ' COP';
+    document.getElementById('menos').disabled = cantidad <= 1;
+    document.getElementById('mas').disabled = cantidad >= MAX;
+  }
+  document.getElementById('menos').addEventListener('click', function(){ if (cantidad > 1) { cantidad--; pintarCantidad(); } });
+  document.getElementById('mas').addEventListener('click', function(){ if (cantidad < MAX) { cantidad++; pintarCantidad(); } });
+  document.getElementById('cantidad').addEventListener('input', function(){
+    var n = parseInt(this.value, 10);
+    if (isNaN(n)) return;
+    cantidad = Math.min(MAX, Math.max(1, n));
+    pintarCantidad();
+  });
+  document.getElementById('cantidad').addEventListener('blur', function(){ this.value = cantidad; });
+
+  var digits = function(v){ return v.replace(/\D/g,''); };
+  var medio = document.getElementById('medio');
+  var rules = {
+    medio: function(v){ return v ? '' : 'Elige cómo pagaste.'; },
+    comprobante: function(v){ return medio.value === 'Efectivo' || v.trim().length >= 3 ? '' : 'Escribe el número del comprobante de tu pago.'; },
+    nombre: function(v){ return v.trim().split(/\s+/).length >= 2 ? '' : 'Escribe tu nombre y apellido.'; },
+    cedula: function(v){ var d = digits(v); return d.length >= 5 && d.length <= 12 ? '' : 'Escribe tu número de cédula, solo números.'; },
+    celular: function(v){ var d = digits(v); return d.length >= 7 && d.length <= 15 ? '' : 'Escribe un celular válido, por ejemplo 300 123 4567.'; },
+    correo: function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Revisa el correo: ahí te llegan tus boletas.'; }
+  };
+  function check(id){
+    var el = document.getElementById(id), msg = rules[id](el.value);
+    document.getElementById(id + '-err').textContent = msg;
+    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    return !msg;
+  }
+  Object.keys(rules).forEach(function(id){
+    var el = document.getElementById(id);
+    el.addEventListener('blur', function(){ if (this.value) check(id); });
+    el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', function(){ if (this.getAttribute('aria-invalid') === 'true') check(id); });
+  });
+  // En efectivo el comprobante es opcional (puede no haber recibo).
+  medio.addEventListener('change', function(){
+    var efectivo = medio.value === 'Efectivo';
+    document.getElementById('comprobante-help').textContent = efectivo ? 'Opcional: el número del recibo, si te dieron uno.' : 'El número que aparece en tu recibo o transferencia.';
+    if (document.getElementById('comprobante').getAttribute('aria-invalid') === 'true') check('comprobante');
+  });
+  function v(id){ return document.getElementById(id).value.trim(); }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    aviso.textContent = '';
+    var ok = true, first = null;
+    Object.keys(rules).forEach(function(id){ if (!check(id)) { ok = false; first = first || id; } });
+    var acepto = document.getElementById('acepto');
+    document.getElementById('acepto-err').textContent = acepto.checked ? '' : 'Necesitamos tu autorización para enviarte tus boletas.';
+    if (!acepto.checked) { ok = false; first = first || 'acepto'; }
+    if (!ok) { document.getElementById(first).focus(); return; }
+
+    var datos = { evento: EVENTO, canal: 'externo', cantidad: cantidad, medio: medio.value, comprobante: v('comprobante'),
+      nombre: v('nombre'), cedula: digits(v('cedula')), celular: v('celular'), correo: v('correo').toLowerCase(), acepto: true, sitio: v('sitio') };
+
+    boton.disabled = true;
+    boton.textContent = 'Enviando…';
+    fetch(URL_REGISTRO, { method: 'POST', body: JSON.stringify(datos) })
+      .then(function(res){ return res.json(); })
+      .then(function(r){
+        if (!r || !r.ok) throw { msg: (r && r.error) || '' };
+        document.getElementById('ok-codigo').textContent = r.codigo;
+        document.getElementById('ok-detalle').textContent = cantidad + (cantidad > 1 ? ' boletas' : ' boleta') + ' · ' + datos.medio + (datos.comprobante ? ' · comprobante ' + datos.comprobante : '');
+        var li = document.getElementById('ok-correo');
+        li.textContent = 'Te llegan tus boletas a ';
+        var b = document.createElement('strong'); b.textContent = datos.correo;
+        li.append(b, ', cada una con su QR.');
+        document.getElementById('form-view').hidden = true;
+        document.getElementById('ok-view').hidden = false;
+        document.getElementById('registro').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.getElementById('ok-title').focus({ preventScroll: true });
+      })
+      .catch(function(err){
+        aviso.textContent = (err && err.msg) || 'No pudimos enviar tus datos. Revisa tu conexión e inténtalo de nuevo.';
+      })
+      .then(function(){ boton.disabled = false; boton.textContent = 'Enviar mis datos'; });
+  });
+
+  document.getElementById('again').addEventListener('click', function(){
+    form.reset();
+    cantidad = 1; pintarCantidad();
+    medio.dispatchEvent(new Event('change'));
+    Object.keys(rules).forEach(function(id){ document.getElementById(id).removeAttribute('aria-invalid'); document.getElementById(id + '-err').textContent = ''; });
+    document.getElementById('ok-view').hidden = true;
+    document.getElementById('form-view').hidden = false;
+    document.getElementById('nombre').focus();
+  });
+  pintarCantidad();
+})();
+</script>
+</body>
+</html>
