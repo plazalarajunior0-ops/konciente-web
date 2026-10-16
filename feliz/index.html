@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Atrévete a ser ¡Feliz! · Entradas</title>
+<meta name="description" content="Standup comedy con Moisés Angulo. Jueves 10 de diciembre de 2026, función 7:00 a 9:00 p. m., Comfamiliar Sede Caribe, Puerto Colombia. Preventa amigos $90.000.">
+<meta property="og:title" content="Atrévete a ser ¡Feliz! · Moisés Angulo">
+<meta property="og:description" content="Jueves 10 de diciembre · Comfamiliar Sede Caribe · Preventa amigos $90.000">
+<meta property="og:image" content="tiquete.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap">
+<style>
+/* Layout: el tiquete arriba como cartel de teatro sobre el telón; debajo, la función (fecha, lugar, sinopsis) a la
+   izquierda y la compra en una tarjeta clara a la derecha; en celular todo en una columna con la compra después de la fecha.
+   One dark theatre look on purpose (red curtain, marquee gold, the ticket's blue), so every color is set explicitly. */
+:root{
+  --curtain:#220506; --red:#8f1214; --red-hi:#c8221f; --gold:#f6b33a; --bulb:#ffe2a0;
+  --blue:#2f6ccf; --blue-dk:#2558ad; --ink:#ffffff; --muted:#ead3d0;
+  --card:#fffaf3; --card-ink:#1c0506; --card-soft:#5c4542; --line:#e2d3c8;
+  --display:"Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  --body:Montserrat, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background-color:var(--curtain);
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(0,0,0,.65), transparent 70%),
+    repeating-linear-gradient(90deg, #3a0709 0 18px, #5a0b0e 30px, #2c0507 46px, #4a090c 60px, #3a0709 72px);
+  color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.55;
+}
+.wrap{max-width:1180px; margin:0 auto; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); padding-block:20px 48px}
+
+/* Cartel */
+.marquee{position:relative; margin:0 auto; max-width:1100px; padding:14px; border-radius:14px;
+  background:linear-gradient(#5b0a0d,#3b0608);
+  box-shadow:0 0 0 3px #7a1114, 0 30px 60px -25px rgba(0,0,0,.9), 0 0 60px rgba(246,179,58,.18)}
+.marquee::before{content:""; position:absolute; inset:5px; border-radius:10px; pointer-events:none;
+  background:
+    radial-gradient(circle, var(--bulb) 0 3px, rgba(246,179,58,.55) 4px, transparent 6px) 0 0/26px 26px;
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; padding:5px;
+  animation:bulbs 2.4s steps(2) infinite}
+@keyframes bulbs{50%{opacity:.65}}
+.marquee img{display:block; width:100%; height:auto; border-radius:6px; max-width:100%}
+
+/* Función + compra */
+.main{margin-top:clamp(28px,5vw,48px); display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); grid-template-areas:"show buy" "more buy"; column-gap:clamp(24px,4vw,48px); row-gap:0; align-items:start}
+.show{grid-area:show; min-width:0}
+.more{grid-area:more; min-width:0}
+.buy{grid-area:buy}
+.eyebrow{margin:0; font-weight:700; font-size:13px; letter-spacing:.24em; text-transform:uppercase; color:var(--gold)}
+h1{margin:4px 0 0; font-family:var(--display); font-weight:400; font-size:clamp(46px,7vw,76px); line-height:.95; letter-spacing:.01em; text-wrap:balance}
+h1 em{font-style:normal; color:var(--gold); text-shadow:0 0 18px rgba(246,179,58,.45)}
+.date{display:flex; align-items:center; gap:18px; margin:22px 0 0}
+.date .day{font-family:var(--display); font-size:clamp(78px,11vw,112px); line-height:.85; color:var(--ink)}
+.date .rest{display:grid; gap:2px; border-left:3px solid var(--ink); padding-left:16px}
+.date .rest b{font-family:var(--display); font-weight:400; font-size:clamp(28px,4vw,36px); line-height:1; letter-spacing:.03em}
+.date .rest span{font-size:14px; color:var(--muted)}
+.facts{list-style:none; margin:22px 0 0; padding:0; display:grid; gap:12px}
+.facts li{display:grid; grid-template-columns:110px minmax(0,1fr); gap:12px; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,.14)}
+.facts li:last-child{border-bottom:0}
+.facts dt,.facts .k{font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); padding-top:3px}
+.facts .v{min-width:0}
+.facts .v small{display:block; color:var(--muted); font-size:14px}
+.synopsis{margin:20px 0 0; color:var(--muted); max-width:60ch}
+.tag{margin:18px 0 0; font-weight:800; text-transform:uppercase; letter-spacing:.02em; font-size:15px; line-height:1.4; display:flex; gap:10px}
+.tag::before{content:"✱"; color:var(--gold); font-size:22px; line-height:1}
+
+.buy{color-scheme:light; position:sticky; top:calc(env(safe-area-inset-top, 0px) + 16px); background:var(--card); color:var(--card-ink); border-radius:12px; padding:clamp(20px,3.5vw,32px); box-shadow:0 30px 60px -30px rgba(0,0,0,.9); min-width:0; overflow:hidden}
+.buy::before{content:""; position:absolute; left:0; right:0; top:0; height:8px; background:repeating-linear-gradient(90deg, var(--gold) 0 14px, transparent 14px 22px)}
+.buy h2{margin:6px 0 4px; font-family:var(--display); font-weight:400; font-size:clamp(36px,4.6vw,44px); line-height:1; letter-spacing:.02em}
+.intro{margin:0 0 18px; color:var(--card-soft); font-size:15px}
+.price{display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 0 20px; padding:14px 18px; border-radius:8px; background:var(--blue); color:#fff}
+.price span{font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; line-height:1.3}
+.price span small{display:block; font-weight:500; letter-spacing:.04em; opacity:.9}
+.price b{font-weight:800; font-size:32px; letter-spacing:-.02em; white-space:nowrap; font-variant-numeric:tabular-nums}
+.price b small{font-size:14px; font-weight:700}
+.grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+.f{display:flex; flex-direction:column; gap:6px; min-width:0}
+.f.full{grid-column:1 / -1}
+label{font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase}
+input[type=text],input[type=email],input[type=tel]{width:100%; height:50px; padding:0 14px; font:inherit; font-size:16px; color:var(--card-ink); background:#fff; border:1.5px solid var(--line); border-radius:6px; transition:border-color .15s, box-shadow .15s}
+input::placeholder{color:#a8958f}
+input:focus{outline:none; border-color:var(--card-ink); box-shadow:0 0 0 3px rgba(246,179,58,.5)}
+input[aria-invalid=true]{border-color:var(--red-hi); background:#fff5f4}
+.err{font-size:13px; color:var(--red-hi); font-weight:600}
+.err:empty{display:none}
+.consent{display:flex; gap:12px; align-items:flex-start; margin:18px 0 0}
+.consent input{width:20px; height:20px; margin:1px 0 0; accent-color:var(--red-hi); flex:none}
+.consent label{font-size:14px; font-weight:400; letter-spacing:0; text-transform:none; color:var(--card-soft); line-height:1.4}
+.btn{display:grid; place-items:center; margin-top:20px; width:100%; min-height:58px; border:0; border-radius:8px; cursor:pointer; text-decoration:none;
+  background:var(--red-hi); color:#fff; font-family:var(--display); font-size:26px; letter-spacing:.06em; transition:background .15s, transform .1s}
+.btn:hover{background:var(--red)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+.btn[disabled]{opacity:.7; cursor:progress}
+.btn.gold{background:var(--gold); color:var(--card-ink)}
+.btn.gold:hover{background:#e9a425}
+.btn.ghost{background:transparent; color:var(--card-ink); border:2px solid var(--card-ink); min-height:50px; font-size:22px}
+.btn.ghost:hover{background:var(--card-ink); color:#fff}
+.secure{margin:10px 0 0; font-size:13px; color:var(--card-soft); text-align:center}
+.form-msg{margin:14px 0 0; font-size:14px; font-weight:700; color:var(--red-hi); text-align:center}
+.form-msg:empty{display:none}
+.trap{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
+.ok{margin:0 0 16px; font-size:16px; line-height:1.45}
+.ok strong{font-weight:800}
+.ticket img{display:block; width:100%; height:auto; border-radius:6px; box-shadow:0 10px 30px -12px rgba(0,0,0,.6); background:#2f6ccf}
+.ticket .hint{margin:10px 0 0; font-size:13px; color:var(--card-soft); text-align:center}
+
+footer{margin-top:clamp(36px,6vw,64px); padding-top:16px; border-top:1px solid rgba(255,255,255,.18); display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 20px; font-size:13px; color:var(--muted)}
+
+@media (max-width:900px){
+  .main{grid-template-columns:minmax(0,1fr); grid-template-areas:"show" "buy" "more"; row-gap:28px}
+  .buy{position:static}
+}
+@media (max-width:440px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .facts li{grid-template-columns:minmax(0,1fr); gap:2px}
+  .price b{font-size:28px}
+}
+@media (prefers-reduced-motion:reduce){ .marquee::before{animation:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="marquee"><img src="tiquete.jpg" alt="Tiquete de Atrévete a ser ¡Feliz!, standup comedy de Moisés Angulo. Jueves 10 de diciembre, 7:00 p. m., Comfamiliar Sede Caribe. Preventa amigos $90.000." width="2000" height="871"></div>
+
+  <div class="main">
+    <section class="show">
+      <p class="eyebrow">Standup comedy · Moisés Angulo</p>
+      <h1>Atrévete a ser <em>¡Feliz!</em></h1>
+      <div class="date">
+        <div class="day">10</div>
+        <div class="rest"><b>Jueves · Diciembre 2026</b><span>Función de 7:00 a 9:00 p. m.</span></div>
+      </div>
+      <ul class="facts">
+        <li><span class="k">Horario</span><span class="v">Puertas: 6:00 p. m.<small>Función: 7:00 a 9:00 p. m.</small></span></li>
+        <li><span class="k">Lugar</span><span class="v">Comfamiliar Sede Caribe<small>Cra. 30 #1B-99, al lado de la Clínica Porto Azul · Puerto Colombia, Atlántico</small></span></li>
+        <li><span class="k">Invita</span><span class="v">Fundación MAS<small>Misericordia, amor y servicio</small></span></li>
+      </ul>
+    </section>
+
+    <section class="more">
+      <p class="synopsis">Este divertido, profundo y esperanzador monólogo para la vida: Moisés Angulo nos lleva, entre música, humor y alegría, desde las más simpáticas escenas de la cotidianidad hasta los más simples interrogantes que solemos hacernos frente a la vida.</p>
+      <p class="tag">Deja de buscar tanto cuento con final feliz para vivir feliz sin tanto cuento</p>
+    </section>
+
+    <aside class="buy" id="registro" aria-live="polite">
+      <div id="form-view">
+        <h2>Compra tu entrada</h2>
+        <p class="intro">Llena tus datos, paga con Wompi y te llega tu tiquete con el código QR al correo.</p>
+        <div class="price"><span>Preventa amigos<small>Una (1) persona</small></span><b>$90.000 <small>COP</small></b></div>
+        <form id="reg-form" novalidate>
+          <div class="grid">
+            <div class="f full">
+              <label for="nombre">Nombre completo</label>
+              <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej. Ana María Torres">
+              <span class="err" id="nombre-err"></span>
+            </div>
+            <div class="f">
+              <label for="cedula">Cédula</label>
+              <input type="text" id="cedula" name="cedula" inputmode="numeric" placeholder="Solo números">
+              <span class="err" id="cedula-err"></span>
+            </div>
+            <div class="f">
+              <label for="celular">Celular (WhatsApp)</label>
+              <input type="tel" id="celular" name="celular" autocomplete="tel" inputmode="tel" placeholder="300 123 4567">
+              <span class="err" id="celular-err"></span>
+            </div>
+            <div class="f full">
+              <label for="correo">Correo electrónico</label>
+              <input type="email" id="correo" name="correo" autocomplete="email" placeholder="tucorreo@ejemplo.com">
+              <span class="err" id="correo-err"></span>
+            </div>
+          </div>
+          <div class="consent">
+            <input type="checkbox" id="acepto" name="acepto">
+            <label for="acepto">Autorizo el uso de mis datos para recibir mi entrada y la información de este evento, según la Ley 1581 de 2012.</label>
+          </div>
+          <span class="err" id="acepto-err"></span>
+          <div class="trap" aria-hidden="true"><label for="sitio">No llenar</label><input type="text" id="sitio" name="sitio" tabindex="-1" autocomplete="off"></div>
+          <button class="btn" type="submit" id="enviar">Pagar $90.000 con Wompi</button>
+          <p class="secure">Pago seguro con Wompi. Al terminar vuelves a esta página.</p>
+          <p class="form-msg" id="form-msg" role="alert"></p>
+        </form>
+      </div>
+
+      <div id="status-view" hidden>
+        <h2 id="s-title" tabindex="-1">Verificando tu pago…</h2>
+        <p class="ok" id="s-msg">Estamos confirmando tu pago con Wompi. Esto toma unos segundos.</p>
+        <button class="btn" type="button" id="s-btn" hidden>Intentar de nuevo</button>
+      </div>
+
+      <div id="ticket-view" class="ticket" hidden>
+        <h2 id="t-title" tabindex="-1">¡Nos vemos en la función!</h2>
+        <p class="ok" id="t-msg"></p>
+        <img id="t-img" alt="Tu tiquete con el código QR de acceso">
+        <p class="hint">Presenta el QR en la entrada, desde tu celular o impreso.</p>
+        <a class="btn gold" id="t-down" download>Descargar mi tiquete</a>
+        <button class="btn ghost" type="button" id="again">Comprar otra entrada</button>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <span>Atrévete a ser ¡Feliz! · Standup comedy · Moisés Angulo</span>
+    <span>Jueves 10 de diciembre de 2026 · Comfamiliar Sede Caribe, Puerto Colombia</span>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+/* Dirección del registro (la "App web" de Google Apps Script en la cuenta de KVRA).
+   (registro/pruebas/servidor.js la cambia por /exec local para probar en este computador.) */
+var URL_REGISTRO = 'https://script.google.com/macros/s/AKfycbyj1d__4TeGcOLL9UBG_t7fM_ZKtQBwfMFGperw6Neslh9oWKcxItgi8SJOPjiIbMKR/exec';
+var CHECKOUT_WOMPI = 'https://checkout.wompi.co/p/';
+var EVENTO = 'feliz';
+
+(function(){
+  var form = document.getElementById('reg-form');
+  var vistas = { form: document.getElementById('form-view'), estado: document.getElementById('status-view'), entrada: document.getElementById('ticket-view') };
+  var boton = document.getElementById('enviar');
+  var textoBoton = boton.textContent;
+  var aviso = document.getElementById('form-msg');
+  var digits = function(v){ return v.replace(/\D/g,''); };
+  var rules = {
+    nombre: function(v){ return v.trim().split(/\s+/).length >= 2 ? '' : 'Escribe tu nombre y apellido.'; },
+    cedula: function(v){ var d = digits(v); return d.length >= 5 && d.length <= 12 ? '' : 'Escribe tu número de cédula, solo números.'; },
+    celular: function(v){ var d = digits(v); return d.length >= 7 && d.length <= 15 ? '' : 'Escribe un celular válido, por ejemplo 300 123 4567.'; },
+    correo: function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Revisa el correo: ahí te llega tu tiquete.'; }
+  };
+  function check(id){
+    var el = document.getElementById(id), msg = rules[id](el.value);
+    document.getElementById(id + '-err').textContent = msg;
+    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    return !msg;
+  }
+  Object.keys(rules).forEach(function(id){
+    document.getElementById(id).addEventListener('blur', function(){ if (this.value) check(id); });
+    document.getElementById(id).addEventListener('input', function(){ if (this.getAttribute('aria-invalid') === 'true') check(id); });
+  });
+  function v(id){ return document.getElementById(id).value.trim(); }
+  function mostrar(cual){
+    Object.keys(vistas).forEach(function(k){ vistas[k].hidden = k !== cual; });
+    document.getElementById('registro').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function guardarBorrador(d){ try { sessionStorage.setItem('feliz-borrador', JSON.stringify(d)); } catch (e) {} }
+  function leerBorrador(){ try { return JSON.parse(sessionStorage.getItem('feliz-borrador') || 'null'); } catch (e) { return null; } }
+  function rellenar(d){ if (d) ['nombre','cedula','celular','correo'].forEach(function(id){ if (d[id]) document.getElementById(id).value = d[id]; }); }
+  function mostrarEstado(titulo, mensaje, textoBtn){
+    document.getElementById('s-title').textContent = titulo;
+    document.getElementById('s-msg').textContent = mensaje;
+    var b = document.getElementById('s-btn');
+    b.hidden = !textoBtn;
+    if (textoBtn) b.textContent = textoBtn;
+    mostrar('estado');
+  }
+
+  /* ---- Tiquete con el desprendible del QR (2620 × 871, igual al del correo) ---- */
+  function cargarImagen(src){
+    return new Promise(function(ok, mal){ var i = new Image(); i.onload = function(){ ok(i); }; i.onerror = mal; i.src = src; });
+  }
+  function dibujarTiquete(codigo, nombre){
+    var fuentes = document.fonts ? Promise.all([document.fonts.load('64px "Bebas Neue"'), document.fonts.load('800 26px Montserrat'), document.fonts.load('500 22px Montserrat')]) : Promise.resolve();
+    return Promise.all([cargarImagen('tiquete.jpg'), fuentes]).then(function(res){
+      var cv = document.createElement('canvas'); cv.width = 2620; cv.height = 871;
+      var g = cv.getContext('2d'), cx = 2310;
+      g.drawImage(res[0], 0, 0, 2000, 871);
+      g.fillStyle = '#2f6ccf'; g.fillRect(2000, 0, 620, 871);
+      g.fillStyle = '#ffffff';
+      for (var y = 12; y < 871; y += 22) { g.beginPath(); g.arc(2005, y, 4, 0, Math.PI * 2); g.fill(); }
+      g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+      g.font = '64px "Bebas Neue", Impact, sans-serif'; g.fillText('TU ENTRADA', cx, 104);
+      g.fillRect(cx - 200, 136, 400, 400);
+      var caja = document.createElement('div');
+      new QRCode(caja, { text: codigo, width: 360, height: 360, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+      var q = caja.querySelector('canvas');
+      g.imageSmoothingEnabled = false;
+      g.drawImage(q, cx - 180, 156, 360, 360);
+      g.fillStyle = '#ffffff';
+      if ('letterSpacing' in g) g.letterSpacing = '6px';
+      g.font = '62px "Bebas Neue", Impact, sans-serif'; g.fillText(codigo, cx, 610);
+      if ('letterSpacing' in g) g.letterSpacing = '0px';
+      var n = (nombre || '').toUpperCase(), t = 28;
+      do { g.font = '800 ' + t + 'px Montserrat, Arial, sans-serif'; t--; } while (g.measureText(n).width > 560 && t > 14);
+      g.fillText(n, cx, 662);
+      g.font = '500 22px Montserrat, Arial, sans-serif'; g.fillText('Una (1) persona', cx, 702);
+      g.font = '500 21px Montserrat, Arial, sans-serif';
+      g.fillText('Puertas: 6:00 p. m.', cx, 762);
+      g.fillText('Función: 7:00 a 9:00 p. m.', cx, 792);
+      return cv;
+    });
+  }
+  function mostrarEntrada(codigo, nombre, mensaje){
+    document.getElementById('t-msg').innerHTML = '';
+    document.getElementById('t-msg').append(mensaje);
+    mostrar('entrada');
+    document.getElementById('t-title').focus({ preventScroll: true });
+    dibujarTiquete(codigo, nombre).then(function(cv){
+      cv.toBlob(function(b){
+        var url = URL.createObjectURL(b);
+        document.getElementById('t-img').src = url;
+        var a = document.getElementById('t-down');
+        a.href = url; a.download = 'Tiquete ' + codigo + '.png';
+      }, 'image/png');
+    }).catch(function(){
+      document.getElementById('t-down').hidden = true;
+    });
+  }
+  function mensajeCorreo(pre, correo, post){
+    var f = document.createDocumentFragment(), b = document.createElement('strong');
+    b.textContent = correo;
+    f.append(pre + ' ', b, post);
+    return f;
+  }
+
+  function irAWompi(checkout){
+    var params = Object.keys(checkout).map(function(k){ return encodeURIComponent(k).replace(/%3A/g, ':') + '=' + encodeURIComponent(checkout[k]); });
+    params.push('redirect-url=' + encodeURIComponent(location.origin + location.pathname));
+    location.href = CHECKOUT_WOMPI + '?' + params.join('&');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    aviso.textContent = '';
+    var ok = true, first = null;
+    Object.keys(rules).forEach(function(id){ if (!check(id)) { ok = false; first = first || id; } });
+    var acepto = document.getElementById('acepto');
+    document.getElementById('acepto-err').textContent = acepto.checked ? '' : 'Necesitamos tu autorización para enviarte tu entrada.';
+    if (!acepto.checked) { ok = false; first = first || 'acepto'; }
+    if (!ok) { document.getElementById(first).focus(); return; }
+
+    var datos = { evento: EVENTO, nombre: v('nombre'), cedula: digits(v('cedula')), celular: v('celular'), correo: v('correo').toLowerCase(), acepto: true, sitio: v('sitio') };
+
+    boton.disabled = true;
+    boton.textContent = 'Preparando tu pago…';
+    fetch(URL_REGISTRO, { method: 'POST', body: JSON.stringify(datos) })
+      .then(function(res){ return res.json(); })
+      .then(function(r){
+        if (!r || !r.ok) throw { msg: (r && r.error) || '' };
+        if (r.pagado) {
+          boton.disabled = false; boton.textContent = textoBoton;
+          document.getElementById('t-title').textContent = 'Ya tienes tu entrada';
+          mostrarEntrada(r.codigo, datos.nombre, mensajeCorreo('Esta cédula ya pagó su entrada. La enviamos a', r.correo, '. Aquí también la puedes descargar.'));
+          return;
+        }
+        guardarBorrador(datos);
+        irAWompi(r.checkout);
+      })
+      .catch(function(err){
+        aviso.textContent = (err && err.msg) || 'No pudimos preparar tu pago. Revisa tu conexión e inténtalo de nuevo.';
+        boton.disabled = false; boton.textContent = textoBoton;
+      });
+  });
+
+  var q = new URLSearchParams(location.search);
+  var idPago = q.get('id'), codigoEntrada = q.get('entrada');
+
+  // Regreso desde Wompi: la dirección trae ?id=<transacción>.
+  if (idPago) {
+    history.replaceState(null, '', location.pathname);
+    mostrarEstado('Verificando tu pago…', 'Estamos confirmando tu pago con Wompi. Esto toma unos segundos.');
+    var intentos = 0;
+    (function consultar(){
+      fetch(URL_REGISTRO + '?accion=estado&id=' + encodeURIComponent(idPago))
+        .then(function(res){ return res.json(); })
+        .then(function(r){
+          if (r.estado === 'APPROVED') {
+            var b = leerBorrador() || {};
+            var msg = r.enviado === false
+              ? mensajeCorreo('Tu pago fue aprobado. Tu tiquete llegará en las próximas horas a', r.correo || b.correo || 'tu correo', '.')
+              : mensajeCorreo('Tu pago fue aprobado. Te enviamos tu tiquete a', r.correo || b.correo || 'tu correo', '. Si no lo ves, revisa la carpeta de spam.');
+            mostrarEntrada(r.codigo, r.nombre || b.nombre, msg);
+            try { sessionStorage.removeItem('feliz-borrador'); } catch (e) {}
+            return;
+          }
+          if (r.estado === 'PENDING' && ++intentos < 6) { setTimeout(consultar, 4000); return; }
+          if (r.estado === 'PENDING') { mostrarEstado('Tu pago está en proceso', 'Wompi todavía no confirma tu pago. Apenas se apruebe te llega el tiquete al correo; no necesitas pagar de nuevo.'); return; }
+          if (r.estado === 'REVISAR') { mostrarEstado('Estamos revisando tu pago', 'El valor recibido no coincide con el de la entrada. Te contactaremos por correo o WhatsApp.'); return; }
+          mostrarEstado('Tu pago no se completó', 'Wompi no aprobó el pago, así que no se hizo ningún cobro por esta entrada. Puedes intentarlo de nuevo con otro medio de pago.', 'Intentar de nuevo');
+        })
+        .catch(function(){
+          mostrarEstado('No pudimos verificar tu pago', 'Si el pago salió aprobado, igual te llega el tiquete al correo en unos minutos. Si no llega, contacta a los organizadores del evento.');
+        });
+    })();
+  } else if (codigoEntrada) {
+    // Enlace del correo: ?entrada=<código> muestra el tiquete para descargarlo.
+    mostrarEstado('Buscando tu tiquete…', 'Un momento.');
+    fetch(URL_REGISTRO + '?accion=entrada&codigo=' + encodeURIComponent(codigoEntrada))
+      .then(function(res){ return res.json(); })
+      .then(function(r){
+        if (!r.ok) { mostrarEstado('No encontramos ese tiquete', r.error || 'Revisa el enlace de tu correo.'); return; }
+        document.getElementById('t-title').textContent = 'Tu tiquete';
+        mostrarEntrada(r.codigo, r.nombre, 'Descárgalo y preséntalo en la entrada.');
+      })
+      .catch(function(){ mostrarEstado('No pudimos cargar tu tiquete', 'Revisa tu conexión e inténtalo de nuevo. El QR también está en tu correo.'); });
+  }
+
+  document.getElementById('s-btn').addEventListener('click', function(){
+    rellenar(leerBorrador());
+    mostrar('form');
+    document.getElementById('nombre').focus();
+  });
+  document.getElementById('again').addEventListener('click', function(){
+    form.reset();
+    aviso.textContent = '';
+    boton.disabled = false; boton.textContent = textoBoton;
+    Object.keys(rules).forEach(function(id){ document.getElementById(id).removeAttribute('aria-invalid'); document.getElementById(id + '-err').textContent = ''; });
+    mostrar('form');
+    document.getElementById('nombre').focus();
+  });
+})();
+</script>
+</body>
+</html>

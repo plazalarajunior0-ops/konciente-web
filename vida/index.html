@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cuando la vida nos mueve · Registro</title>
+<meta name="description" content="Podcast en vivo empresarial. 20 de noviembre de 2026, 4:30 p. m., Comfamiliar Sede Caribe. Regístrate y recibe tu QR de acceso.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&display=swap">
+<style>
+/* Layout: póster colgado a la izquierda (cartel, fecha, invitados) y el registro enmarcado a la derecha; en celular, una columna con el formulario justo después de los invitados.
+   One warm-paper look on purpose, matching the printed flyer, so every color is set explicitly. */
+:root{
+  --paper:#e7e4e0; --paper-hi:#f4f2ef; --card:#fbfaf8; --field:#ffffff;
+  --ink:#17130f; --ink-soft:#544c43; --line:#d4cdc4;
+  --red:#9c1c1f; --red-dk:#7d1518; --orange:#d2763a; --gold:#a5741e; --frame:#7b5629;
+  --display:"Archivo","Arial Black","Helvetica Neue",Arial,sans-serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  background-image:radial-gradient(ellipse 80% 60% at 30% 0%, var(--paper-hi), transparent 70%);
+  color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.5;
+}
+.wrap{
+  max-width:1180px; margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:24px 48px;
+}
+.hero{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:clamp(28px,5vw,64px); align-items:start}
+.poster{display:flex; flex-direction:column; gap:28px; min-width:0}
+
+/* Cartel colgado */
+.hang{position:relative; display:flex; flex-direction:column; align-items:center; padding-bottom:26px}
+.hang svg{width:62%; max-width:340px; height:auto; display:block; margin-bottom:-6px}
+.sign{
+  position:relative; width:100%; max-width:580px;
+  background:var(--card); border:7px solid var(--frame); border-radius:7px;
+  padding:20px clamp(18px,4vw,30px) 24px;
+  transform:rotate(-2deg); transform-origin:50% -40px;
+  box-shadow:0 22px 34px -22px rgba(70,45,20,.55);
+  animation:swing 1.6s cubic-bezier(.3,1.6,.5,1) both;
+}
+.sign::after{
+  content:""; position:absolute; right:16%; bottom:-21px; width:32px; height:32px;
+  background:var(--card); border-right:7px solid var(--frame); border-bottom:7px solid var(--frame);
+  transform:rotate(45deg); border-bottom-right-radius:4px;
+}
+@keyframes swing{0%{transform:rotate(-7deg)}100%{transform:rotate(-2deg)}}
+.eyebrow{font-size:clamp(11px,2.6vw,13px); font-weight:600; letter-spacing:.32em; text-transform:uppercase; margin:0 0 10px; color:var(--ink)}
+.rec{display:inline-block; width:.78em; height:.78em; border-radius:50%; background:var(--red); vertical-align:-.06em; margin:0 .02em; animation:rec 1.8s ease-in-out infinite}
+@keyframes rec{50%{opacity:.35}}
+h1{
+  margin:0; font-family:var(--display); font-weight:900; font-stretch:84%;
+  font-size:clamp(36px,7.4vw,58px); line-height:.94; letter-spacing:-.035em; text-transform:uppercase;
+}
+h1 .row{display:block}
+h1 small{font-size:.62em; letter-spacing:-.02em}
+.blk{display:inline-block; color:#fff; padding:.02em .14em .04em; line-height:.95}
+.blk.r{background:var(--red); transform:rotate(-1.5deg)}
+.blk.o{background:var(--orange); transform:rotate(.8deg)}
+.blk.g{background:var(--gold); transform:rotate(-.8deg)}
+
+/* Fecha y lugar */
+.when{text-align:center}
+.date{font-family:var(--display); font-weight:900; font-stretch:92%; font-size:clamp(52px,10vw,96px); line-height:1; letter-spacing:-.03em; margin:0}
+.date i{font-style:normal; color:var(--red); padding:0 .06em}
+.where{display:flex; flex-wrap:wrap; justify-content:center; gap:4px 14px; margin:10px 0 0; padding:0; list-style:none; font-weight:800; font-stretch:88%; text-transform:uppercase; font-size:clamp(13px,2.6vw,16px); letter-spacing:.01em}
+.where li{display:flex; align-items:center; gap:14px}
+.where li + li::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--ink)}
+.addr{margin:8px 0 0; font-size:14px; color:var(--ink-soft)}
+
+/* Invitados */
+.guests{margin:0; display:flex; flex-direction:column; gap:14px}
+.photo{border:6px solid var(--frame); border-radius:6px; overflow:hidden; aspect-ratio:1259/1170; max-width:100%; background:var(--paper-hi); box-shadow:0 22px 34px -24px rgba(70,45,20,.6)}
+.photo img{width:100%; height:100%; object-fit:cover; object-position:50% 40%; display:block}
+.lede{margin:0; font-size:clamp(17px,2.6vw,20px); line-height:1.3; text-align:center; text-wrap:balance}
+.lede b{font-weight:800; font-stretch:90%}
+.lede em{font-weight:300; font-stretch:72%}
+
+/* Registro */
+.reg{
+  position:sticky; top:calc(env(safe-area-inset-top, 0px) + 20px);
+  background:var(--card); border:5px solid var(--frame); border-radius:7px;
+  padding:clamp(20px,4vw,34px); box-shadow:0 26px 40px -28px rgba(70,45,20,.6); min-width:0;
+}
+.reg h2{margin:0 0 6px; font-family:var(--display); font-weight:900; font-stretch:86%; font-size:clamp(30px,4.4vw,40px); line-height:1; letter-spacing:-.03em; text-transform:uppercase; text-wrap:balance}
+.reg .intro{margin:0 0 22px; color:var(--ink-soft); max-width:46ch}
+.grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 14px}
+.f{display:flex; flex-direction:column; gap:6px; min-width:0}
+.f.full{grid-column:1 / -1}
+label{font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink)}
+input[type=text],input[type=email],input[type=tel]{
+  width:100%; height:50px; padding:0 14px; font:inherit; font-size:16px; color:var(--ink);
+  background:var(--field); border:1.5px solid var(--line); border-radius:6px; transition:border-color .15s, box-shadow .15s;
+}
+input::placeholder{color:#9b9188}
+input:focus{outline:none; border-color:var(--ink); box-shadow:0 0 0 3px rgba(210,118,58,.35)}
+input[aria-invalid=true]{border-color:var(--red); background:#fdf6f6}
+.err{font-size:13px; color:var(--red); font-weight:600; min-height:0}
+.err:empty{display:none}
+.consent{display:flex; gap:12px; align-items:flex-start; margin:18px 0 0; font-size:14px; color:var(--ink-soft); line-height:1.4}
+.consent input{width:20px; height:20px; margin:1px 0 0; accent-color:var(--red); flex:none}
+.consent label{font-size:14px; font-weight:400; letter-spacing:0; text-transform:none; color:var(--ink-soft)}
+.btn{
+  margin-top:20px; width:100%; min-height:58px; border:0; border-radius:6px; cursor:pointer;
+  background:var(--red); color:#fff; font-family:var(--display); font-weight:800; font-stretch:90%;
+  font-size:18px; letter-spacing:.04em; text-transform:uppercase; transition:background .15s, transform .1s;
+}
+.btn:hover{background:var(--red-dk)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--orange); outline-offset:3px}
+.btn.ghost{background:transparent; color:var(--ink); border:2px solid var(--ink); min-height:50px; font-size:15px}
+.btn.ghost:hover{background:var(--ink); color:#fff}
+.price{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin:0 0 20px; padding:12px 16px; border:2px dashed var(--line); border-radius:6px}
+.price span{font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase}
+.price b{font-family:var(--display); font-weight:900; font-stretch:88%; font-size:28px; letter-spacing:-.02em; font-variant-numeric:tabular-nums; white-space:nowrap}
+.price small{font-size:14px; font-weight:700; letter-spacing:.04em}
+.secure{margin:10px 0 0; font-size:13px; color:var(--ink-soft); text-align:center}
+.form-msg{margin:14px 0 0; font-size:14px; font-weight:600; color:var(--red); text-align:center}
+.form-msg:empty{display:none}
+.btn[disabled]{opacity:.7; cursor:progress}
+.trap{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
+
+/* Entrada */
+.ticket{display:flex; flex-direction:column; gap:18px}
+.ok{margin:0; font-size:17px; line-height:1.4}
+.ok strong{font-weight:800}
+.pass{border:2px solid var(--ink); border-radius:8px; background:var(--field); overflow:hidden}
+.pass-top{background:var(--ink); color:#fff; padding:12px 18px; display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase}
+.pass-top .rec{width:.9em; height:.9em}
+.pass-top span:last-child{white-space:nowrap}
+@media (max-width:420px){ .pass-top{letter-spacing:.08em; font-size:11px} }
+.pass-body{padding:18px}
+.pass-name{font-family:var(--display); font-weight:900; font-stretch:86%; font-size:24px; line-height:1.05; letter-spacing:-.02em; text-transform:uppercase; margin:0; overflow-wrap:anywhere}
+.pass-org{margin:4px 0 12px; color:var(--ink-soft); font-size:14px; overflow-wrap:anywhere}
+.pass-meta{margin:0; padding:0; list-style:none; font-size:14px; display:grid; gap:2px}
+.pass-meta b{font-weight:800}
+.pass-cut{border-top:2px dashed var(--line); padding:10px 18px; display:flex; justify-content:space-between; gap:10px; font-size:13px; color:var(--ink-soft); font-variant-numeric:tabular-nums}
+.pass-cut b{color:var(--ink); letter-spacing:.08em}
+
+/* Movimientos */
+.movs{margin-top:clamp(48px,8vw,88px); display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:clamp(28px,5vw,64px); align-items:center}
+.movs h2{margin:0 0 22px; font-family:var(--display); font-weight:900; font-stretch:86%; font-size:clamp(34px,5.6vw,56px); line-height:1; letter-spacing:-.035em}
+.movs h2 .con{display:block; font-size:.6em; margin-bottom:8px}
+.movs h2 .blk{margin-top:4px}
+.list{margin:0; padding:0; list-style:none; display:grid; gap:8px}
+.list li{display:flex; gap:14px; align-items:baseline; font-weight:800; font-stretch:90%; font-size:clamp(20px,3vw,27px); line-height:1.15; letter-spacing:-.02em}
+.list li::before{content:""; flex:none; width:.62em; height:.62em; border-radius:50%; background:var(--red); transform:translateY(.02em)}
+.side{display:flex; flex-direction:column; gap:24px}
+.for{margin:0; font-size:clamp(20px,2.8vw,26px); line-height:1.2; text-wrap:balance}
+.for b{font-weight:800; font-stretch:90%}
+.for em{font-weight:300; font-stretch:72%}
+.quote{
+  margin:0; background:var(--paper-hi); padding:26px 24px; position:relative;
+  font-weight:700; font-stretch:90%; font-size:17px; line-height:1.35;
+  clip-path:polygon(0 6%,4% 0,9% 5%,15% 1%,22% 6%,30% 0,38% 4%,46% 0,55% 5%,63% 1%,71% 6%,79% 0,87% 5%,94% 1%,100% 6%,100% 94%,95% 100%,88% 95%,80% 100%,72% 95%,64% 100%,56% 96%,48% 100%,40% 95%,32% 100%,24% 96%,16% 100%,8% 95%,0 100%);
+}
+.quote p{margin:0}
+footer{margin-top:clamp(40px,7vw,72px); padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 20px; font-size:13px; color:var(--ink-soft)}
+
+@media (max-width:860px){
+  .hero,.movs{grid-template-columns:minmax(0,1fr)}
+  .reg{position:static}
+}
+@media (max-width:420px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .where li + li::before{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .sign,.rec{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="poster">
+      <div class="hang" aria-hidden="false">
+        <svg viewBox="0 0 400 70" aria-hidden="true"><path d="M14 68 L200 10 L386 68" fill="none" stroke="#544c43" stroke-width="2"/><circle cx="200" cy="9" r="7" fill="#8a8178"/><circle cx="198" cy="7" r="2.5" fill="#c9c2b9"/></svg>
+        <div class="sign">
+          <p class="eyebrow">Podcast en viv<span class="rec" aria-hidden="true"></span><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">o</span> empresarial</p>
+          <h1><span class="row">Cuando <small>la</small> <span class="blk r">Vida</span></span><span class="row">Nos <span class="blk o">Mueve</span></span></h1>
+        </div>
+      </div>
+
+      <div class="when">
+        <p class="date">20<i>·</i>NOV<i>·</i>26</p>
+        <ul class="where">
+          <li>Hora 4:30 p. m.</li>
+          <li>Comfamiliar, Sede Caribe</li>
+          <li>Salones 6 y 7</li>
+        </ul>
+        <p class="addr">Cra. 30 #1B-99, al lado de la Clínica Porto Azul · Puerto Colombia, Atlántico</p>
+      </div>
+
+      <figure class="guests">
+        <div class="photo"><img src="flyer.jpg" alt="Moisés Angulo y Luis Carlos Quiñones, invitados del podcast" width="1259" height="2000"></div>
+        <figcaption class="lede"><em>Una</em> <b>conversación</b> <em>en</em> <b>vivo</b> <em>con</em> <b>historias reales, reflexión,</b> <em>participación del público y momentos musicales.</em></figcaption>
+      </figure>
+    </div>
+
+    <aside class="reg" id="registro" aria-live="polite">
+      <div id="form-view">
+        <h2>Reserva tu entrada</h2>
+        <p class="intro">Llena tus datos y te enviamos tu código QR de acceso al correo. Lo muestras en la entrada el día del evento.</p>
+        <form id="reg-form" novalidate>
+          <div class="grid">
+            <div class="f full">
+              <label for="nombre">Nombre completo</label>
+              <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej. Ana María Torres">
+              <span class="err" id="nombre-err"></span>
+            </div>
+            <div class="f">
+              <label for="cedula">Cédula</label>
+              <input type="text" id="cedula" name="cedula" inputmode="numeric" placeholder="Solo números">
+              <span class="err" id="cedula-err"></span>
+            </div>
+            <div class="f">
+              <label for="celular">Celular (WhatsApp)</label>
+              <input type="tel" id="celular" name="celular" autocomplete="tel" inputmode="tel" placeholder="300 123 4567">
+              <span class="err" id="celular-err"></span>
+            </div>
+            <div class="f full">
+              <label for="correo">Correo electrónico</label>
+              <input type="email" id="correo" name="correo" autocomplete="email" placeholder="tucorreo@empresa.com">
+              <span class="err" id="correo-err"></span>
+            </div>
+            <div class="f">
+              <label for="empresa">Empresa u organización</label>
+              <input type="text" id="empresa" name="empresa" autocomplete="organization" placeholder="Nombre de la empresa">
+              <span class="err" id="empresa-err"></span>
+            </div>
+            <div class="f">
+              <label for="cargo">Cargo</label>
+              <input type="text" id="cargo" name="cargo" autocomplete="organization-title" placeholder="Ej. Gerente de talento">
+              <span class="err" id="cargo-err"></span>
+            </div>
+          </div>
+          <div class="consent">
+            <input type="checkbox" id="acepto" name="acepto">
+            <label for="acepto">Autorizo el uso de mis datos para recibir mi acceso y la información de este evento, según la Ley 1581 de 2012.</label>
+          </div>
+          <span class="err" id="acepto-err"></span>
+          <div class="trap" aria-hidden="true"><label for="sitio">No llenar</label><input type="text" id="sitio" name="sitio" tabindex="-1" autocomplete="off"></div>
+          <button class="btn" type="submit" id="enviar">Quiero mi QR de acceso</button>
+          <p class="form-msg" id="form-msg" role="alert"></p>
+        </form>
+      </div>
+
+      <div id="ticket-view" class="ticket" hidden>
+        <h2 id="t-title" tabindex="-1">¡Ya estás dentro!</h2>
+        <p class="ok"><span id="t-msg1"></span> <strong id="t-mail"></strong><span id="t-msg2"></span></p>
+        <div class="pass">
+          <div class="pass-top"><span>Cuando la vida nos mueve</span><span><span class="rec" aria-hidden="true"></span> En vivo</span></div>
+          <div class="pass-body">
+            <div>
+              <p class="pass-name" id="t-name"></p>
+              <p class="pass-org" id="t-org"></p>
+              <ul class="pass-meta">
+                <li><b>Viernes 20 de noviembre de 2026</b></li>
+                <li>4:30 p. m.</li>
+                <li>Comfamiliar, Sede Caribe · Salones 6 y 7</li>
+                <li>Cra. 30 #1B-99, Puerto Colombia</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pass-cut"><span>Código de acceso</span><b id="t-code"></b></div>
+        </div>
+        <button class="btn ghost" type="button" id="again">Registrar a otra persona</button>
+      </div>
+    </aside>
+  </section>
+
+  <section class="movs">
+    <div>
+      <h2><span class="con">Con:</span><span class="blk r">5 movimientos</span><br><span class="blk g">sobre los cambios</span></h2>
+      <ul class="list">
+        <li>Los que elegimos.</li>
+        <li>Los que no elegimos.</li>
+        <li>Los que aplazamos.</li>
+        <li>Los colectivos.</li>
+        <li>Los que sentimos como llamado.</li>
+      </ul>
+    </div>
+    <div class="side">
+      <p class="for"><em>Un</em> <b>encuentro exclusivo para organizaciones</b> <em>que le apuestan al</em> <b>cambio.</b></p>
+      <blockquote class="quote"><p>La resiliencia no exige sonreír mientras duele. Primero permite reconocer lo ocurrido; después ayuda a encontrar recursos para continuar.</p></blockquote>
+      <a class="btn" href="#registro" style="display:grid;place-items:center;text-decoration:none;margin-top:0">Reservar mi entrada</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>Podcast en vivo empresarial · Cuando la vida nos mueve</span>
+    <span>20 de noviembre de 2026 · 4:30 p. m. · Comfamiliar Sede Caribe, Puerto Colombia</span>
+  </footer>
+</div>
+
+<script>
+/* Dirección del registro (la "App web" de Google Apps Script en la cuenta de KVRA).
+   Vacía = modo de prueba: valida y muestra la confirmación, pero no guarda nada.
+   (registro/pruebas/servidor.js la cambia por /exec local para probar en este computador.) */
+var URL_REGISTRO = 'https://script.google.com/macros/s/AKfycbyj1d__4TeGcOLL9UBG_t7fM_ZKtQBwfMFGperw6Neslh9oWKcxItgi8SJOPjiIbMKR/exec';
+var EVENTO = 'cvnm';
+
+(function(){
+  var form = document.getElementById('reg-form');
+  var formView = document.getElementById('form-view');
+  var ticketView = document.getElementById('ticket-view');
+  var boton = document.getElementById('enviar');
+  var textoBoton = boton.textContent;
+  var aviso = document.getElementById('form-msg');
+  var digits = function(v){ return v.replace(/\D/g,''); };
+  var rules = {
+    nombre: function(v){ return v.trim().split(/\s+/).length >= 2 ? '' : 'Escribe tu nombre y apellido.'; },
+    cedula: function(v){ var d = digits(v); return d.length >= 5 && d.length <= 12 ? '' : 'Escribe tu número de cédula, solo números.'; },
+    celular: function(v){ var d = digits(v); return d.length >= 7 && d.length <= 15 ? '' : 'Escribe un celular válido, por ejemplo 300 123 4567.'; },
+    correo: function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Revisa el correo: ahí te llega el QR.'; },
+    empresa: function(v){ return v.trim() ? '' : 'Escribe el nombre de tu empresa u organización.'; },
+    cargo: function(v){ return v.trim() ? '' : 'Escribe tu cargo.'; }
+  };
+  function check(id){
+    var el = document.getElementById(id), msg = rules[id](el.value);
+    document.getElementById(id + '-err').textContent = msg;
+    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    return !msg;
+  }
+  Object.keys(rules).forEach(function(id){
+    document.getElementById(id).addEventListener('blur', function(){ if (this.value) check(id); });
+    document.getElementById(id).addEventListener('input', function(){ if (this.getAttribute('aria-invalid') === 'true') check(id); });
+  });
+  function v(id){ return document.getElementById(id).value.trim(); }
+
+  function mostrarEntrada(r, datos){
+    var titulo = '¡Ya estás dentro!', m1, mail, m2;
+    if (r.repetido) {
+      titulo = 'Ya estabas registrado';
+      m1 = 'Esta cédula ya tiene su entrada. El QR se envió a';
+      mail = r.correo || 'el correo que registraste';
+      m2 = '. Si no lo encuentras, revisa la carpeta de spam.';
+    } else if (r.enviado === false && URL_REGISTRO) {
+      m1 = 'Tu registro quedó confirmado. Tu QR llegará en las próximas horas a';
+      mail = datos.correo;
+      m2 = '.';
+    } else {
+      m1 = 'Te enviamos tu QR a';
+      mail = datos.correo;
+      m2 = '. Si no lo ves en unos minutos, revisa también la carpeta de spam.';
+    }
+    document.getElementById('t-title').textContent = titulo;
+    document.getElementById('t-msg1').textContent = m1;
+    document.getElementById('t-mail').textContent = mail;
+    document.getElementById('t-msg2').textContent = m2;
+    document.getElementById('t-name').textContent = datos.nombre;
+    document.getElementById('t-org').textContent = datos.empresa + ' · ' + datos.cargo;
+    document.getElementById('t-code').textContent = r.codigo || '';
+    formView.hidden = true;
+    ticketView.hidden = false;
+    document.getElementById('registro').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('t-title').focus({ preventScroll: true });
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    aviso.textContent = '';
+    var ok = true, first = null;
+    Object.keys(rules).forEach(function(id){ if (!check(id)) { ok = false; first = first || id; } });
+    var acepto = document.getElementById('acepto');
+    document.getElementById('acepto-err').textContent = acepto.checked ? '' : 'Necesitamos tu autorización para enviarte el acceso.';
+    if (!acepto.checked) { ok = false; first = first || 'acepto'; }
+    if (!ok) { document.getElementById(first).focus(); return; }
+
+    var datos = { evento: EVENTO, nombre: v('nombre'), cedula: digits(v('cedula')), celular: v('celular'), correo: v('correo').toLowerCase(),
+      empresa: v('empresa'), cargo: v('cargo'), acepto: true, sitio: v('sitio') };
+
+    if (!URL_REGISTRO) { mostrarEntrada({ codigo: 'CVNM-PRUEBA' }, datos); return; }
+
+    boton.disabled = true;
+    boton.textContent = 'Registrando…';
+    fetch(URL_REGISTRO, { method: 'POST', body: JSON.stringify(datos) })
+      .then(function(res){ return res.json(); })
+      .then(function(r){
+        if (!r || !r.ok) throw { msg: (r && r.error) || '' };
+        mostrarEntrada(r, datos);
+      })
+      .catch(function(err){
+        aviso.textContent = (err && err.msg) || 'No pudimos completar tu registro. Revisa tu conexión e inténtalo de nuevo.';
+      })
+      .then(function(){ boton.disabled = false; boton.textContent = textoBoton; });
+  });
+
+  document.getElementById('again').addEventListener('click', function(){
+    form.reset();
+    aviso.textContent = '';
+    Object.keys(rules).forEach(function(id){ document.getElementById(id).removeAttribute('aria-invalid'); document.getElementById(id + '-err').textContent = ''; });
+    ticketView.hidden = true;
+    formView.hidden = false;
+    document.getElementById('nombre').focus();
+  });
+})();
+</script>
+</body>
+</html>
