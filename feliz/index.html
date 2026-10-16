@@ -86,7 +86,15 @@ h1 em{font-style:normal; color:var(--gold); text-shadow:0 0 18px rgba(246,179,58
 .stepper button:hover{background:#f1e6da}
 .stepper button:disabled{opacity:.3; cursor:not-allowed}
 .stepper button:focus-visible{outline:3px solid var(--gold); outline-offset:-3px}
-.stepper output{min-width:44px; text-align:center; font-family:var(--display); font-size:32px; line-height:1; font-variant-numeric:tabular-nums}
+.stepper input{width:64px; height:48px; border:0; padding:0; text-align:center; background:transparent; color:var(--card-ink); font-family:var(--display); font-size:32px; line-height:1; font-variant-numeric:tabular-nums; -moz-appearance:textfield; appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+.stepper input:focus{outline:none; background:#f1e6da}
+.filas{list-style:none; margin:4px 0 0; padding:0; display:grid; gap:8px; max-height:420px; overflow:auto}
+.filas li{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:#fff; font-size:14px; font-variant-numeric:tabular-nums}
+.filas li b{font-weight:800; letter-spacing:.04em}
+.filas li small{display:block; color:var(--card-soft)}
+.filas button{flex:none; border:0; border-radius:6px; padding:9px 12px; background:var(--gold); color:var(--card-ink); font:800 13px var(--body); text-transform:uppercase; letter-spacing:.04em; cursor:pointer}
+.filas button[disabled]{opacity:.6; cursor:progress}
 .total{display:flex; justify-content:space-between; align-items:baseline; margin:0 0 18px; padding:12px 0 0; border-top:2px dashed var(--line); font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.06em}
 .total b{font-size:26px; letter-spacing:-.01em; font-variant-numeric:tabular-nums; text-transform:none}
 .lista{display:grid; gap:18px}
@@ -168,10 +176,10 @@ footer{margin-top:clamp(36px,6vw,64px); padding-top:16px; border-top:1px solid r
         <div class="price"><span>Preventa amigos<small>Precio por boleta · una (1) persona</small></span><b>$90.000 <small>COP</small></b></div>
         <form id="reg-form" novalidate>
           <div class="qty">
-            <span class="qty-l" id="qty-l">¿Cuántas boletas?<small>Máximo 10 por compra</small></span>
+            <span class="qty-l" id="qty-l">¿Cuántas boletas?<small>De 1 a 100 por compra</small></span>
             <div class="stepper" role="group" aria-labelledby="qty-l">
               <button type="button" id="menos" aria-label="Una boleta menos">−</button>
-              <output id="cantidad" aria-live="polite">1</output>
+              <input id="cantidad" type="number" inputmode="numeric" min="1" max="100" value="1" aria-label="Número de boletas">
               <button type="button" id="mas" aria-label="Una boleta más">+</button>
             </div>
           </div>
@@ -246,10 +254,11 @@ var EVENTO = 'feliz';
   var boton = document.getElementById('enviar');
   var textoBoton = boton.textContent;
   var aviso = document.getElementById('form-msg');
-  var PRECIO = 90000, MAX = 10, cantidad = 1;
+  var PRECIO = 90000, MAX = 100, cantidad = 1;
   var pesos = function(n){ return '$' + n.toLocaleString('es-CO'); };
   function pintarCantidad(){
-    document.getElementById('cantidad').textContent = cantidad;
+    var campo = document.getElementById('cantidad');
+    if (document.activeElement !== campo || campo.value !== '') campo.value = cantidad;
     document.getElementById('total').textContent = pesos(PRECIO * cantidad) + ' COP';
     document.getElementById('menos').disabled = cantidad <= 1;
     document.getElementById('mas').disabled = cantidad >= MAX;
@@ -258,6 +267,13 @@ var EVENTO = 'feliz';
   }
   document.getElementById('menos').addEventListener('click', function(){ if (cantidad > 1) { cantidad--; pintarCantidad(); } });
   document.getElementById('mas').addEventListener('click', function(){ if (cantidad < MAX) { cantidad++; pintarCantidad(); } });
+  document.getElementById('cantidad').addEventListener('input', function(){
+    var n = parseInt(this.value, 10);
+    if (isNaN(n)) return;                       // deja borrar para escribir otro número
+    cantidad = Math.min(MAX, Math.max(1, n));
+    pintarCantidad();
+  });
+  document.getElementById('cantidad').addEventListener('blur', function(){ this.value = cantidad; });
   var digits = function(v){ return v.replace(/\D/g,''); };
   var rules = {
     nombre: function(v){ return v.trim().split(/\s+/).length >= 2 ? '' : 'Escribe tu nombre y apellido.'; },
@@ -332,6 +348,18 @@ var EVENTO = 'feliz';
       return cv;
     });
   }
+  function descargar(b, nombre, etiqueta, boton){
+    if (boton) { boton.disabled = true; boton.textContent = 'Preparando…'; }
+    return dibujarTiquete(b.codigo, nombre, etiqueta).then(function(cv){
+      cv.toBlob(function(blob){
+        var url = URL.createObjectURL(blob), a = document.createElement('a');
+        a.href = url; a.download = 'Boleta ' + b.codigo + '.png';
+        document.body.append(a); a.click(); a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+        if (boton) { boton.disabled = false; boton.textContent = 'Descargar'; }
+      }, 'image/png');
+    });
+  }
   function mostrarEntrada(boletas, nombre, mensaje){
     var msg = document.getElementById('t-msg');
     msg.innerHTML = '';
@@ -340,23 +368,43 @@ var EVENTO = 'feliz';
     lista.innerHTML = '';
     mostrar('entrada');
     document.getElementById('t-title').focus({ preventScroll: true });
-    (boletas || []).forEach(function(b){
+    boletas = boletas || [];
+    var varias = boletas.length > 1;
+    var conVista = boletas.length > 3 ? boletas.slice(0, 1) : boletas;
+    conVista.forEach(function(b){
       var fig = document.createElement('figure');
       var img = document.createElement('img');
       img.alt = 'Boleta ' + b.boleta + ' con su código QR ' + b.codigo;
       var a = document.createElement('a');
       a.className = 'btn gold';
-      a.textContent = boletas.length > 1 ? 'Descargar boleta ' + b.boleta : 'Descargar mi boleta';
+      a.textContent = varias ? 'Descargar boleta ' + b.boleta : 'Descargar mi boleta';
       a.hidden = true;
       fig.append(img, a);
       lista.append(fig);
-      dibujarTiquete(b.codigo, nombre, boletas.length > 1 ? b.boleta : '').then(function(cv){
+      dibujarTiquete(b.codigo, nombre, varias ? b.boleta : '').then(function(cv){
         cv.toBlob(function(blob){
           var url = URL.createObjectURL(blob);
           img.src = url; a.href = url; a.download = 'Boleta ' + b.codigo + '.png'; a.hidden = false;
         }, 'image/png');
       });
     });
+    if (boletas.length > 3) {
+      var ul = document.createElement('ul');
+      ul.className = 'filas';
+      boletas.forEach(function(b){
+        var li = document.createElement('li');
+        var t = document.createElement('span');
+        var code = document.createElement('b'); code.textContent = b.codigo;
+        var sm = document.createElement('small'); sm.textContent = 'Boleta ' + b.boleta;
+        t.append(code, sm);
+        var bt = document.createElement('button');
+        bt.type = 'button'; bt.textContent = 'Descargar';
+        bt.addEventListener('click', function(){ descargar(b, nombre, b.boleta, bt); });
+        li.append(t, bt);
+        ul.append(li);
+      });
+      lista.append(ul);
+    }
   }
   function mensajeCorreo(pre, correo, post){
     var f = document.createDocumentFragment(), b = document.createElement('strong');
