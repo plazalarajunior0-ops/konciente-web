@@ -78,6 +78,20 @@ h1 em{font-style:normal; color:var(--gold); text-shadow:0 0 18px rgba(246,179,58
 .price span small{display:block; font-weight:500; letter-spacing:.04em; opacity:.9}
 .price b{font-weight:800; font-size:32px; letter-spacing:-.02em; white-space:nowrap; font-variant-numeric:tabular-nums}
 .price b small{font-size:14px; font-weight:700}
+.qty{display:flex; justify-content:space-between; align-items:center; gap:14px; padding:0 0 14px}
+.qty-l{font-size:15px; font-weight:800; line-height:1.3}
+.qty-l small{display:block; font-size:12px; font-weight:500; color:var(--card-soft)}
+.stepper{display:flex; align-items:center; border:2px solid var(--card-ink); border-radius:999px; overflow:hidden; flex:none}
+.stepper button{width:48px; height:48px; border:0; background:transparent; color:var(--card-ink); font-size:26px; font-weight:700; cursor:pointer; line-height:1}
+.stepper button:hover{background:#f1e6da}
+.stepper button:disabled{opacity:.3; cursor:not-allowed}
+.stepper button:focus-visible{outline:3px solid var(--gold); outline-offset:-3px}
+.stepper output{min-width:44px; text-align:center; font-family:var(--display); font-size:32px; line-height:1; font-variant-numeric:tabular-nums}
+.total{display:flex; justify-content:space-between; align-items:baseline; margin:0 0 18px; padding:12px 0 0; border-top:2px dashed var(--line); font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.06em}
+.total b{font-size:26px; letter-spacing:-.01em; font-variant-numeric:tabular-nums; text-transform:none}
+.lista{display:grid; gap:18px}
+.lista figure{margin:0}
+.lista .btn{margin-top:10px; min-height:50px; font-size:22px}
 .grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
 .f{display:flex; flex-direction:column; gap:6px; min-width:0}
 .f.full{grid-column:1 / -1}
@@ -107,7 +121,7 @@ input[aria-invalid=true]{border-color:var(--red-hi); background:#fff5f4}
 .trap{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
 .ok{margin:0 0 16px; font-size:16px; line-height:1.45}
 .ok strong{font-weight:800}
-.ticket img{display:block; width:100%; height:auto; border-radius:6px; box-shadow:0 10px 30px -12px rgba(0,0,0,.6); background:#2f6ccf}
+.ticket img{display:block; width:100%; height:auto; border-radius:6px; box-shadow:0 10px 30px -12px rgba(0,0,0,.6); background:#c8161d}
 .ticket .hint{margin:10px 0 0; font-size:13px; color:var(--card-soft); text-align:center}
 
 footer{margin-top:clamp(36px,6vw,64px); padding-top:16px; border-top:1px solid rgba(255,255,255,.18); display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 20px; font-size:13px; color:var(--muted)}
@@ -139,7 +153,6 @@ footer{margin-top:clamp(36px,6vw,64px); padding-top:16px; border-top:1px solid r
       <ul class="facts">
         <li><span class="k">Horario</span><span class="v">Puertas: 6:00 p. m.<small>Función: 7:00 a 9:00 p. m.</small></span></li>
         <li><span class="k">Lugar</span><span class="v">Comfamiliar Sede Caribe<small>Cra. 30 #1B-99, al lado de la Clínica Porto Azul · Puerto Colombia, Atlántico</small></span></li>
-        <li><span class="k">Invita</span><span class="v">Fundación MAS<small>Misericordia, amor y servicio</small></span></li>
       </ul>
     </section>
 
@@ -151,9 +164,18 @@ footer{margin-top:clamp(36px,6vw,64px); padding-top:16px; border-top:1px solid r
     <aside class="buy" id="registro" aria-live="polite">
       <div id="form-view">
         <h2>Compra tu entrada</h2>
-        <p class="intro">Llena tus datos, paga con Wompi y te llega tu tiquete con el código QR al correo.</p>
-        <div class="price"><span>Preventa amigos<small>Una (1) persona</small></span><b>$90.000 <small>COP</small></b></div>
+        <p class="intro">Elige cuántas boletas quieres, paga con Wompi y te llegan todas al correo, cada una con su propio QR.</p>
+        <div class="price"><span>Preventa amigos<small>Precio por boleta · una (1) persona</small></span><b>$90.000 <small>COP</small></b></div>
         <form id="reg-form" novalidate>
+          <div class="qty">
+            <span class="qty-l" id="qty-l">¿Cuántas boletas?<small>Máximo 10 por compra</small></span>
+            <div class="stepper" role="group" aria-labelledby="qty-l">
+              <button type="button" id="menos" aria-label="Una boleta menos">−</button>
+              <output id="cantidad" aria-live="polite">1</output>
+              <button type="button" id="mas" aria-label="Una boleta más">+</button>
+            </div>
+          </div>
+          <p class="total">Total a pagar <b id="total">$90.000</b></p>
           <div class="grid">
             <div class="f full">
               <label for="nombre">Nombre completo</label>
@@ -197,9 +219,8 @@ footer{margin-top:clamp(36px,6vw,64px); padding-top:16px; border-top:1px solid r
       <div id="ticket-view" class="ticket" hidden>
         <h2 id="t-title" tabindex="-1">¡Nos vemos en la función!</h2>
         <p class="ok" id="t-msg"></p>
-        <img id="t-img" alt="Tu tiquete con el código QR de acceso">
-        <p class="hint">Presenta el QR en la entrada, desde tu celular o impreso.</p>
-        <a class="btn gold" id="t-down" download>Descargar mi tiquete</a>
+        <div class="lista" id="t-lista"></div>
+        <p class="hint">Cada boleta sirve para una persona. Presenta su QR en la entrada, desde el celular o impreso.</p>
         <button class="btn ghost" type="button" id="again">Comprar otra entrada</button>
       </div>
     </aside>
@@ -225,6 +246,18 @@ var EVENTO = 'feliz';
   var boton = document.getElementById('enviar');
   var textoBoton = boton.textContent;
   var aviso = document.getElementById('form-msg');
+  var PRECIO = 90000, MAX = 10, cantidad = 1;
+  var pesos = function(n){ return '$' + n.toLocaleString('es-CO'); };
+  function pintarCantidad(){
+    document.getElementById('cantidad').textContent = cantidad;
+    document.getElementById('total').textContent = pesos(PRECIO * cantidad) + ' COP';
+    document.getElementById('menos').disabled = cantidad <= 1;
+    document.getElementById('mas').disabled = cantidad >= MAX;
+    textoBoton = 'Pagar ' + pesos(PRECIO * cantidad) + ' con Wompi';
+    if (!boton.disabled) boton.textContent = textoBoton;
+  }
+  document.getElementById('menos').addEventListener('click', function(){ if (cantidad > 1) { cantidad--; pintarCantidad(); } });
+  document.getElementById('mas').addEventListener('click', function(){ if (cantidad < MAX) { cantidad++; pintarCantidad(); } });
   var digits = function(v){ return v.replace(/\D/g,''); };
   var rules = {
     nombre: function(v){ return v.trim().split(/\s+/).length >= 2 ? '' : 'Escribe tu nombre y apellido.'; },
@@ -249,7 +282,11 @@ var EVENTO = 'feliz';
   }
   function guardarBorrador(d){ try { sessionStorage.setItem('feliz-borrador', JSON.stringify(d)); } catch (e) {} }
   function leerBorrador(){ try { return JSON.parse(sessionStorage.getItem('feliz-borrador') || 'null'); } catch (e) { return null; } }
-  function rellenar(d){ if (d) ['nombre','cedula','celular','correo'].forEach(function(id){ if (d[id]) document.getElementById(id).value = d[id]; }); }
+  function rellenar(d){
+    if (!d) return;
+    ['nombre','cedula','celular','correo'].forEach(function(id){ if (d[id]) document.getElementById(id).value = d[id]; });
+    if (d.cantidad) { cantidad = Math.min(MAX, Math.max(1, d.cantidad)); pintarCantidad(); }
+  }
   function mostrarEstado(titulo, mensaje, textoBtn){
     document.getElementById('s-title').textContent = titulo;
     document.getElementById('s-msg').textContent = mensaje;
@@ -263,30 +300,31 @@ var EVENTO = 'feliz';
   function cargarImagen(src){
     return new Promise(function(ok, mal){ var i = new Image(); i.onload = function(){ ok(i); }; i.onerror = mal; i.src = src; });
   }
-  function dibujarTiquete(codigo, nombre){
+  function dibujarTiquete(codigo, nombre, etiqueta){
     var fuentes = document.fonts ? Promise.all([document.fonts.load('64px "Bebas Neue"'), document.fonts.load('800 26px Montserrat'), document.fonts.load('500 22px Montserrat')]) : Promise.resolve();
     return Promise.all([cargarImagen('tiquete.jpg'), fuentes]).then(function(res){
       var cv = document.createElement('canvas'); cv.width = 2620; cv.height = 871;
       var g = cv.getContext('2d'), cx = 2310;
       g.drawImage(res[0], 0, 0, 2000, 871);
-      g.fillStyle = '#2f6ccf'; g.fillRect(2000, 0, 620, 871);
+      g.fillStyle = '#c8161d'; g.fillRect(2000, 0, 620, 871);
       g.fillStyle = '#ffffff';
       for (var y = 12; y < 871; y += 22) { g.beginPath(); g.arc(2005, y, 4, 0, Math.PI * 2); g.fill(); }
       g.textAlign = 'center'; g.textBaseline = 'alphabetic';
-      g.font = '64px "Bebas Neue", Impact, sans-serif'; g.fillText('TU ENTRADA', cx, 104);
-      g.fillRect(cx - 200, 136, 400, 400);
+      g.font = '64px "Bebas Neue", Impact, sans-serif'; g.fillText('TU ENTRADA', cx, 92);
+      if (etiqueta) { g.font = '800 24px Montserrat, Arial, sans-serif'; g.fillText(('Boleta ' + etiqueta).toUpperCase(), cx, 128); }
+      g.fillRect(cx - 200, 146, 400, 400);
       var caja = document.createElement('div');
       new QRCode(caja, { text: codigo, width: 360, height: 360, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
       var q = caja.querySelector('canvas');
       g.imageSmoothingEnabled = false;
-      g.drawImage(q, cx - 180, 156, 360, 360);
+      g.drawImage(q, cx - 180, 166, 360, 360);
       g.fillStyle = '#ffffff';
       if ('letterSpacing' in g) g.letterSpacing = '6px';
-      g.font = '62px "Bebas Neue", Impact, sans-serif'; g.fillText(codigo, cx, 610);
+      g.font = '62px "Bebas Neue", Impact, sans-serif'; g.fillText(codigo, cx, 614);
       if ('letterSpacing' in g) g.letterSpacing = '0px';
       var n = (nombre || '').toUpperCase(), t = 28;
       do { g.font = '800 ' + t + 'px Montserrat, Arial, sans-serif'; t--; } while (g.measureText(n).width > 560 && t > 14);
-      g.fillText(n, cx, 662);
+      g.fillText(n, cx, 664);
       g.font = '500 22px Montserrat, Arial, sans-serif'; g.fillText('Una (1) persona', cx, 702);
       g.font = '500 21px Montserrat, Arial, sans-serif';
       g.fillText('Puertas: 6:00 p. m.', cx, 762);
@@ -294,20 +332,30 @@ var EVENTO = 'feliz';
       return cv;
     });
   }
-  function mostrarEntrada(codigo, nombre, mensaje){
-    document.getElementById('t-msg').innerHTML = '';
-    document.getElementById('t-msg').append(mensaje);
+  function mostrarEntrada(boletas, nombre, mensaje){
+    var msg = document.getElementById('t-msg');
+    msg.innerHTML = '';
+    msg.append(mensaje);
+    var lista = document.getElementById('t-lista');
+    lista.innerHTML = '';
     mostrar('entrada');
     document.getElementById('t-title').focus({ preventScroll: true });
-    dibujarTiquete(codigo, nombre).then(function(cv){
-      cv.toBlob(function(b){
-        var url = URL.createObjectURL(b);
-        document.getElementById('t-img').src = url;
-        var a = document.getElementById('t-down');
-        a.href = url; a.download = 'Tiquete ' + codigo + '.png';
-      }, 'image/png');
-    }).catch(function(){
-      document.getElementById('t-down').hidden = true;
+    (boletas || []).forEach(function(b){
+      var fig = document.createElement('figure');
+      var img = document.createElement('img');
+      img.alt = 'Boleta ' + b.boleta + ' con su código QR ' + b.codigo;
+      var a = document.createElement('a');
+      a.className = 'btn gold';
+      a.textContent = boletas.length > 1 ? 'Descargar boleta ' + b.boleta : 'Descargar mi boleta';
+      a.hidden = true;
+      fig.append(img, a);
+      lista.append(fig);
+      dibujarTiquete(b.codigo, nombre, boletas.length > 1 ? b.boleta : '').then(function(cv){
+        cv.toBlob(function(blob){
+          var url = URL.createObjectURL(blob);
+          img.src = url; a.href = url; a.download = 'Boleta ' + b.codigo + '.png'; a.hidden = false;
+        }, 'image/png');
+      });
     });
   }
   function mensajeCorreo(pre, correo, post){
@@ -333,7 +381,7 @@ var EVENTO = 'feliz';
     if (!acepto.checked) { ok = false; first = first || 'acepto'; }
     if (!ok) { document.getElementById(first).focus(); return; }
 
-    var datos = { evento: EVENTO, nombre: v('nombre'), cedula: digits(v('cedula')), celular: v('celular'), correo: v('correo').toLowerCase(), acepto: true, sitio: v('sitio') };
+    var datos = { evento: EVENTO, cantidad: cantidad, nombre: v('nombre'), cedula: digits(v('cedula')), celular: v('celular'), correo: v('correo').toLowerCase(), acepto: true, sitio: v('sitio') };
 
     boton.disabled = true;
     boton.textContent = 'Preparando tu pago…';
@@ -344,7 +392,7 @@ var EVENTO = 'feliz';
         if (r.pagado) {
           boton.disabled = false; boton.textContent = textoBoton;
           document.getElementById('t-title').textContent = 'Ya tienes tu entrada';
-          mostrarEntrada(r.codigo, datos.nombre, mensajeCorreo('Esta cédula ya pagó su entrada. La enviamos a', r.correo, '. Aquí también la puedes descargar.'));
+          mostrarEntrada(r.boletas || [{ codigo: r.codigo, boleta: '1 de 1' }], datos.nombre, mensajeCorreo('Esta cédula ya pagó su entrada. La enviamos a', r.correo, '. Aquí también la puedes descargar.'));
           return;
         }
         guardarBorrador(datos);
@@ -356,6 +404,7 @@ var EVENTO = 'feliz';
       });
   });
 
+  pintarCantidad();
   var q = new URLSearchParams(location.search);
   var idPago = q.get('id'), codigoEntrada = q.get('entrada');
 
@@ -370,10 +419,11 @@ var EVENTO = 'feliz';
         .then(function(r){
           if (r.estado === 'APPROVED') {
             var b = leerBorrador() || {};
+            var varias = (r.boletas || []).length > 1;
             var msg = r.enviado === false
-              ? mensajeCorreo('Tu pago fue aprobado. Tu tiquete llegará en las próximas horas a', r.correo || b.correo || 'tu correo', '.')
-              : mensajeCorreo('Tu pago fue aprobado. Te enviamos tu tiquete a', r.correo || b.correo || 'tu correo', '. Si no lo ves, revisa la carpeta de spam.');
-            mostrarEntrada(r.codigo, r.nombre || b.nombre, msg);
+              ? mensajeCorreo('Tu pago fue aprobado. ' + (varias ? 'Tus boletas llegarán' : 'Tu boleta llegará') + ' en las próximas horas a', r.correo || b.correo || 'tu correo', '.')
+              : mensajeCorreo('Tu pago fue aprobado. Te enviamos ' + (varias ? 'tus ' + r.boletas.length + ' boletas' : 'tu boleta') + ' a', r.correo || b.correo || 'tu correo', '. Si no lo ves, revisa la carpeta de spam.');
+            mostrarEntrada(r.boletas || [{ codigo: r.codigo, boleta: '1 de 1' }], r.nombre || b.nombre, msg);
             try { sessionStorage.removeItem('feliz-borrador'); } catch (e) {}
             return;
           }
@@ -393,8 +443,8 @@ var EVENTO = 'feliz';
       .then(function(res){ return res.json(); })
       .then(function(r){
         if (!r.ok) { mostrarEstado('No encontramos ese tiquete', r.error || 'Revisa el enlace de tu correo.'); return; }
-        document.getElementById('t-title').textContent = 'Tu tiquete';
-        mostrarEntrada(r.codigo, r.nombre, 'Descárgalo y preséntalo en la entrada.');
+        document.getElementById('t-title').textContent = (r.boletas || []).length > 1 ? 'Tus boletas' : 'Tu boleta';
+        mostrarEntrada(r.boletas || [{ codigo: r.codigo, boleta: '1 de 1' }], r.nombre, 'Descárgalas y preséntalas en la entrada.');
       })
       .catch(function(){ mostrarEstado('No pudimos cargar tu tiquete', 'Revisa tu conexión e inténtalo de nuevo. El QR también está en tu correo.'); });
   }
@@ -407,7 +457,8 @@ var EVENTO = 'feliz';
   document.getElementById('again').addEventListener('click', function(){
     form.reset();
     aviso.textContent = '';
-    boton.disabled = false; boton.textContent = textoBoton;
+    boton.disabled = false;
+    cantidad = 1; pintarCantidad();
     Object.keys(rules).forEach(function(id){ document.getElementById(id).removeAttribute('aria-invalid'); document.getElementById(id + '-err').textContent = ''; });
     mostrar('form');
     document.getElementById('nombre').focus();
