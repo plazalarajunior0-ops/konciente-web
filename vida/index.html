@@ -129,6 +129,7 @@ input[aria-invalid=true]{border-color:var(--red); background:#fdf6f6}
 /* Entrada */
 .ticket{display:flex; flex-direction:column; gap:18px}
 .ok{margin:0; font-size:17px; line-height:1.4}
+.spam{margin:14px 0 0; padding:10px 14px; border-radius:6px; background:#fbefe0; border:1.5px solid #d2763a; color:#17130f; font-size:14px; line-height:1.45}
 .ok strong{font-weight:800}
 .pass{border:2px solid var(--ink); border-radius:8px; background:var(--field); overflow:hidden}
 .pass-top{background:var(--ink); color:#fff; padding:12px 18px; display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase}
@@ -256,6 +257,7 @@ footer{margin-top:clamp(40px,7vw,72px); padding-top:18px; border-top:1px solid v
       <div id="ticket-view" class="ticket" hidden>
         <h2 id="t-title" tabindex="-1">¡Ya estás dentro!</h2>
         <p class="ok"><span id="t-msg1"></span> <strong id="t-mail"></strong><span id="t-msg2"></span></p>
+        <p class="spam"><b>Importante:</b> el correo puede llegar a <b>Spam</b> o <b>Correo no deseado</b>. Si está ahí, ábrelo y toca <b>«No es spam»</b> para ver tu QR.</p>
         <div class="pass">
           <div class="pass-top"><span>Cuando la vida nos mueve</span><span><span class="rec" aria-hidden="true"></span> En vivo</span></div>
           <div class="pass-body">
@@ -350,7 +352,7 @@ var EVENTO = 'cvnm';
     } else {
       m1 = 'Te enviamos tu QR a';
       mail = datos.correo;
-      m2 = '. Si no lo ves en unos minutos, revisa también la carpeta de spam.';
+      m2 = '.';
     }
     document.getElementById('t-title').textContent = titulo;
     document.getElementById('t-msg1').textContent = m1;

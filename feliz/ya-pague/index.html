@@ -152,6 +152,7 @@ select[aria-invalid=true]{border-color:var(--red-hi); background-color:#fff5f4}
 .resumen{margin:0 0 18px; padding:14px 16px; border-radius:8px; background:#f6efe6; display:grid; gap:4px; font-size:15px}
 .resumen b{font-weight:800}
 .codigo{display:inline-block; margin-top:2px; font-family:var(--display); font-size:30px; letter-spacing:.08em; color:var(--card-ink)}
+.spam{margin:0 0 14px; padding:10px 14px; border-radius:8px; background:#fff4e0; border:1.5px solid var(--gold); color:var(--card-ink); font-size:14px; line-height:1.45}
 .pasos{margin:0 0 18px; padding-left:20px; color:var(--card-soft); font-size:15px; display:grid; gap:6px}
 .marquee.small{max-width:820px}
 .main{grid-template-rows:auto 1fr}
@@ -265,7 +266,8 @@ select[aria-invalid=true]{border-color:var(--red-hi); background-color:#fff5f4}
           <li id="ok-correo">Te llegan tus boletas al correo, cada una con su QR.</li>
           <li>Presentas el QR en la entrada, desde el celular o impreso.</li>
         </ol>
-        <p class="help">Si en un par de días no te llega el correo, revisa la carpeta de spam o escríbele al organizador con tu número de registro.</p>
+        <p class="spam"><b>Importante:</b> el correo puede llegar a <b>Spam</b> o <b>Correo no deseado</b>. Si está ahí, ábrelo y toca <b>«No es spam»</b> para ver tus boletas (también van en el PDF adjunto).</p>
+        <p class="help">Si en un par de días no te llega el correo, escríbele al organizador con tu número de registro.</p>
         <button class="btn ghost" type="button" id="again">Registrar otro pago</button>
       </div>
     </aside>

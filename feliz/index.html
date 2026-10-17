@@ -128,6 +128,7 @@ input[aria-invalid=true]{border-color:var(--red-hi); background:#fff5f4}
 .form-msg:empty{display:none}
 .trap{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
 .ok{margin:0 0 16px; font-size:16px; line-height:1.45}
+.spam{margin:0 0 16px; padding:10px 14px; border-radius:8px; background:#fff4e0; border:1.5px solid var(--gold); color:var(--card-ink); font-size:14px; line-height:1.45}
 .ok strong{font-weight:800}
 .ticket img{display:block; width:100%; height:auto; border-radius:6px; box-shadow:0 10px 30px -12px rgba(0,0,0,.6); background:#c8161d}
 .ticket .hint{margin:10px 0 0; font-size:13px; color:var(--card-soft); text-align:center}
@@ -227,6 +228,7 @@ footer{margin-top:clamp(36px,6vw,64px); padding-top:16px; border-top:1px solid r
       <div id="ticket-view" class="ticket" hidden>
         <h2 id="t-title" tabindex="-1">¡Nos vemos en la función!</h2>
         <p class="ok" id="t-msg"></p>
+        <p class="spam"><b>Importante:</b> el correo puede llegar a <b>Spam</b> o <b>Correo no deseado</b>. Si está ahí, ábrelo y toca <b>«No es spam»</b> para ver tus boletas (también van en el PDF adjunto).</p>
         <div class="lista" id="t-lista"></div>
         <p class="hint">Cada boleta sirve para una persona. Presenta su QR en la entrada, desde el celular o impreso.</p>
         <button class="btn ghost" type="button" id="again">Comprar otra entrada</button>
@@ -470,7 +472,7 @@ var EVENTO = 'feliz';
             var varias = (r.boletas || []).length > 1;
             var msg = r.enviado === false
               ? mensajeCorreo('Tu pago fue aprobado. ' + (varias ? 'Tus boletas llegarán' : 'Tu boleta llegará') + ' en las próximas horas a', r.correo || b.correo || 'tu correo', '.')
-              : mensajeCorreo('Tu pago fue aprobado. Te enviamos ' + (varias ? 'tus ' + r.boletas.length + ' boletas' : 'tu boleta') + ' a', r.correo || b.correo || 'tu correo', '. Si no lo ves, revisa la carpeta de spam.');
+              : mensajeCorreo('Tu pago fue aprobado. Te enviamos ' + (varias ? 'tus ' + r.boletas.length + ' boletas' : 'tu boleta') + ' a', r.correo || b.correo || 'tu correo', '.');
             mostrarEntrada(r.boletas || [{ codigo: r.codigo, boleta: '1 de 1' }], r.nombre || b.nombre, msg);
             try { sessionStorage.removeItem('feliz-borrador'); } catch (e) {}
             return;
